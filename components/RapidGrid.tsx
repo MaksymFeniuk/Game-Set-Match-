@@ -2,7 +2,7 @@ import React from 'react';
 
 const CLUBS_DATA = [
   {
-    name: "CLUB XNRGY (Amsterdam)",
+    name: "CLUB XNRGY (Eindhoven)",
     details: ["Padel Type: 1", "Court Type: 2", "Padel / Court 3", "Court Type: 4"],
     slots: { "10:00": "empty", "11:00": "empty", "12:00": "empty", "13:00": "book", "14:00": "empty", "15:00": "empty", "17:00": "empty" }
   },

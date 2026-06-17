@@ -20,16 +20,16 @@ const QUICK_ACTIONS = [
 
 const CLUBS = [
   {
-    name: 'Club XNRGY Amsterdam',
+    name: 'Club XNRGY Eindhoven',
     distance: '1.2km',
-    area: 'Amsterdam Oost',
+    area: 'Eindhoven Oost',
     activity: '6 open courts',
     image: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=900&auto=format&fit=crop&q=80',
   },
   {
     name: 'Blanca Padel',
     distance: '2.8km',
-    area: 'Amsterdam Zuid',
+    area: 'Eindhoven Zuid',
     activity: '3 open matches',
     image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=900&auto=format&fit=crop&q=80',
   },

@@ -13,7 +13,7 @@ const UPCOMING = [
     sport: 'Padel',
     format: 'Doubles',
     title: 'Padel doubles at XNRGY',
-    club: 'Club XNRGY Amsterdam',
+    club: 'Club XNRGY Eindhoven',
     date: 'Today',
     time: '19:00 - 20:30',
     status: 'Confirmed',
@@ -48,7 +48,7 @@ const UPCOMING = [
 
 const PAST = [
   { id: 1, sport: 'Tennis', opponent: 'Daniel P.', club: 'Downtown Tennis Club', date: '14 Jun', result: 'Won', score: '6-4, 7-5' },
-  { id: 2, sport: 'Padel', opponent: 'Emma L. & Max F.', club: 'Club XNRGY Amsterdam', date: '11 Jun', result: 'Lost', score: '4-6, 6-7' },
+  { id: 2, sport: 'Padel', opponent: 'Emma L. & Max F.', club: 'Club XNRGY Eindhoven', date: '11 Jun', result: 'Lost', score: '4-6, 6-7' },
   { id: 3, sport: 'Padel', opponent: 'Mila V. & Noah S.', club: 'Blanca Padel', date: '7 Jun', result: 'Won', score: '6-2, 6-3' },
   { id: 4, sport: 'Tennis', opponent: 'Ben H.', club: 'Downtown Tennis Club', date: '2 Jun', result: 'Won', score: '7-6, 6-4' },
 ];

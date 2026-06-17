@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
+  Check,
   Clock,
   MapPin,
   Plus,
@@ -14,6 +15,7 @@ import {
 import FilterDropdown from '../../components/FilterDropdown';
 import WhenFilterModal, { DayOption } from '../../components/WhenFilterModal';
 import WhereFilterModal, { ClubOption } from '../../components/WhereFilterModal';
+import CreateMatchModal, { NewMatchPayload } from '../../components/CreateMatchModal';
 import { PLAYERS } from '../../data/players';
 
 const OPEN_MATCHES = [
@@ -23,7 +25,7 @@ const OPEN_MATCHES = [
     format: 'Doubles',
     title: 'Padel doubles at XNRGY',
     level: 'Level 3.5 - 4.5',
-    club: 'Club XNRGY Amsterdam',
+    club: 'Club XNRGY Eindhoven',
     time: 'Today, 19:00',
     players: '3/4 players',
     price: 'EUR 8 split',
@@ -62,14 +64,14 @@ const OPEN_MATCHES = [
 ];
 
 const CLUBS = [
-  { name: 'Club XNRGY Amsterdam', sports: 'Padel + Tennis', open: '6 courts open', distance: '1.2 km' },
+  { name: 'Club XNRGY Eindhoven', sports: 'Padel + Tennis', open: '6 courts open', distance: '1.2 km' },
   { name: 'Blanca Padel', sports: 'Padel', open: '3 courts open', distance: '2.8 km' },
   { name: 'Downtown Tennis Club', sports: 'Tennis', open: '2 courts open', distance: '3.4 km' },
 ];
 
 const CLUB_OPTIONS: ClubOption[] = [
   {
-    name: 'Club XNRGY Amsterdam',
+    name: 'Club XNRGY Eindhoven',
     image: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=400&auto=format&fit=crop&q=80',
   },
   {
@@ -131,7 +133,46 @@ export default function ExplorePage() {
   const [distance, setDistance] = useState(15);
 
   const [openModal, setOpenModal] = useState<null | 'when' | 'where'>(null);
+  const [showCreate, setShowCreate] = useState(false);
+  const [createdMatches, setCreatedMatches] = useState<typeof OPEN_MATCHES>([]);
   const [following, setFollowing] = useState<number[]>([1]);
+  const [joined, setJoined] = useState<number[]>([]);
+
+  const toggleJoin = (id: number) => {
+    setJoined((current) =>
+      current.includes(id) ? current.filter((matchId) => matchId !== id) : [...current, id]
+    );
+  };
+
+  // Show one more player in the count once you've joined.
+  const displayedPlayers = (id: number, players: string) => {
+    if (!joined.includes(id)) return players;
+    const parsed = players.match(/^(\d+)\/(\d+)/);
+    if (!parsed) return players;
+    const current = Math.min(Number(parsed[1]) + 1, Number(parsed[2]));
+    return `${current}/${parsed[2]} players`;
+  };
+
+  const handleCreateMatch = (payload: NewMatchPayload) => {
+    const maxPlayers = payload.format === 'Doubles' ? 4 : 2;
+    setCreatedMatches((current) => [
+      {
+        id: 1000 + current.length,
+        sport: payload.sport,
+        format: payload.format,
+        title: payload.title,
+        level: `Level ${payload.levelMin} - ${payload.levelMax}`,
+        club: payload.club,
+        time: `${payload.day}, ${payload.time}`,
+        players: `1/${maxPlayers} players`,
+        price: 'Cost split',
+        vibe: payload.vibe,
+        host: 'Maksym F.',
+        avatar: '/maksymfeniuk.jpg',
+      },
+      ...current,
+    ]);
+  };
 
   // Resolves a match's time string to one of the day keys in the picker.
   const matchDayKey = (time: string) => {
@@ -152,7 +193,7 @@ export default function ExplorePage() {
     return true;
   };
 
-  const matches = OPEN_MATCHES.filter((match) => {
+  const matches = [...createdMatches, ...OPEN_MATCHES].filter((match) => {
     if (sport !== 'All sports' && match.sport !== sport) return false;
     if (selectedDays.length > 0) {
       const key = matchDayKey(match.time);
@@ -239,7 +280,10 @@ export default function ExplorePage() {
           </p>
         </div>
 
-        <button className="flex items-center justify-center gap-2 text-[11px] font-extrabold tracking-widest text-[#090e17] bg-[var(--color-cyan-glow)] hover:brightness-110 px-5 py-3 rounded-lg transition-all shadow-[0_0_18px_rgba(0,255,255,0.22)]">
+        <button
+          onClick={() => setShowCreate(true)}
+          className="flex items-center justify-center gap-2 text-[11px] font-extrabold tracking-widest text-[#090e17] bg-[var(--color-cyan-glow)] hover:brightness-110 px-5 py-3 rounded-lg transition-all shadow-[0_0_18px_rgba(0,255,255,0.22)]"
+        >
           <Plus size={16} />
           CREATE MATCH
         </button>
@@ -302,7 +346,10 @@ export default function ExplorePage() {
           )}
 
           <div className="space-y-4">
-            {matches.map((match) => (
+            {matches.map((match) => {
+              const isOwn = match.host === 'Maksym F.';
+              const isJoined = joined.includes(match.id);
+              return (
               <article
                 key={match.id}
                 className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-5 relative overflow-hidden"
@@ -331,9 +378,23 @@ export default function ExplorePage() {
                     </div>
                   </div>
 
-                  <button className="md:w-32 text-[11px] font-extrabold tracking-widest text-[#090e17] bg-[var(--color-cyan-glow)] hover:brightness-110 px-4 py-3 rounded-lg transition-all">
-                    JOIN MATCH
-                  </button>
+                  {isOwn ? (
+                    <span className="md:w-32 text-center text-[11px] font-extrabold tracking-widest text-slate-400 border border-[#1f2937] bg-[#090e17] px-4 py-3 rounded-lg">
+                      YOUR MATCH
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => toggleJoin(match.id)}
+                      className={`md:w-32 flex items-center justify-center gap-1.5 text-[11px] font-extrabold tracking-widest px-4 py-3 rounded-lg transition-all ${
+                        isJoined
+                          ? 'text-[var(--color-accent)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 hover:border-[var(--color-accent)]'
+                          : 'text-[#090e17] bg-[var(--color-cyan-glow)] hover:brightness-110'
+                      }`}
+                    >
+                      {isJoined && <Check size={14} strokeWidth={3} />}
+                      {isJoined ? 'JOINED' : 'JOIN MATCH'}
+                    </button>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mt-5">
@@ -341,7 +402,7 @@ export default function ExplorePage() {
                     { icon: Trophy, label: match.level },
                     { icon: MapPin, label: match.club },
                     { icon: Clock, label: match.time },
-                    { icon: Users, label: match.players },
+                    { icon: Users, label: displayedPlayers(match.id, match.players) },
                     { icon: Zap, label: match.price },
                   ].map((item) => (
                     <div key={item.label} className="bg-[#090e17] border border-[#1f2937] rounded-lg px-3 py-3 flex items-center gap-2 min-w-0">
@@ -351,7 +412,8 @@ export default function ExplorePage() {
                   ))}
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -454,6 +516,14 @@ export default function ExplorePage() {
           onSpecificTo={setSpecificTo}
           onClose={() => setOpenModal(null)}
           onClear={clearWhen}
+        />
+      )}
+
+      {showCreate && (
+        <CreateMatchModal
+          clubs={CLUB_OPTIONS.map((club) => club.name)}
+          onClose={() => setShowCreate(false)}
+          onCreate={handleCreateMatch}
         />
       )}
 
