@@ -1,6 +1,7 @@
 'use client';
 
 import { Trophy, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
 
 export default function LeagueTablesPage() {
   return (
@@ -24,8 +25,9 @@ export default function LeagueTablesPage() {
               <div className="w-20 text-center text-slate-500 font-bold text-xs tracking-widest">MATCHES</div>
             </div>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rank) => (
-              <div
+              <Link
                 key={rank}
+                href="/profile"
                 className="px-6 py-4 flex items-center gap-4 border-b border-[#1f2937] hover:bg-[#090e17]/80 transition-colors cursor-pointer group"
               >
                 <div className={`w-8 text-center font-black ${
@@ -39,7 +41,7 @@ export default function LeagueTablesPage() {
                 </div>
                 <div className="w-20 text-center font-black text-[var(--color-cyan-glow)]">{2500 - rank * 50}</div>
                 <div className="w-20 text-center font-bold text-slate-400">{100 - rank * 5}</div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -55,8 +57,9 @@ export default function LeagueTablesPage() {
               <div className="w-20 text-center text-slate-500 font-bold text-xs tracking-widest">LOSSES</div>
             </div>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((rank) => (
-              <div
+              <Link
                 key={rank}
+                href="/profile"
                 className="px-6 py-4 flex items-center gap-4 border-b border-[#1f2937] hover:bg-[#090e17]/80 transition-colors cursor-pointer group"
               >
                 <div className={`w-8 text-center font-black ${
@@ -69,7 +72,7 @@ export default function LeagueTablesPage() {
                 </div>
                 <div className="w-20 text-center font-black text-[var(--color-accent)]">{9 - rank}</div>
                 <div className="w-20 text-center font-black text-red-500">{rank - 1}</div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -83,8 +86,8 @@ export default function LeagueTablesPage() {
           { label: 'MATCHES THIS WEEK', value: '342' },
           { label: 'TOP RATING', value: '2,850' },
         ].map((stat) => (
-          <div key={stat.label} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 relative overflow-hidden group hover:border-[var(--color-accent)]/40 transition-colors">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-2xl group-hover:bg-[var(--color-accent)]/10 transition-colors"></div>
+          <div key={stat.label} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-2xl"></div>
             <p className="text-slate-400 text-[10px] font-black tracking-widest mb-2 relative z-10">{stat.label}</p>
             <p className="text-3xl font-black text-white relative z-10 drop-shadow-[0_0_5px_rgba(255,255,255,0.1)]">{stat.value}</p>
           </div>

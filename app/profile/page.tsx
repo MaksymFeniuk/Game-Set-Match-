@@ -69,8 +69,8 @@ export default function ProfilePage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((badge) => (
-                <div key={badge} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-6 flex flex-col items-center justify-center hover:border-[var(--color-neon-orange)]/50 transition-colors cursor-pointer group">
-                  <div className="w-14 h-14 bg-[var(--color-neon-orange)]/10 rounded-full flex items-center justify-center mb-3 group-hover:bg-[var(--color-neon-orange)]/20 transition-colors shadow-[0_0_15px_rgba(255,107,0,0.1)]">
+                <div key={badge} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-6 flex flex-col items-center justify-center">
+                  <div className="w-14 h-14 bg-[var(--color-neon-orange)]/10 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(255,107,0,0.1)]">
                     <Trophy size={24} className="text-[var(--color-neon-orange)]" />
                   </div>
                   <p className="text-[10px] font-bold text-slate-400 text-center tracking-widest uppercase">Badge {badge}</p>
@@ -86,8 +86,8 @@ export default function ProfilePage() {
             </h3>
             <div className="space-y-4">
               {[1, 2, 3].map((match) => (
-                <div key={match} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-5 flex items-center justify-between hover:border-[var(--color-accent)]/40 transition-colors group cursor-pointer relative overflow-hidden">
-                   <div className="absolute left-0 top-0 w-1 h-full bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div key={match} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-5 flex items-center justify-between relative overflow-hidden">
+                   <div className="absolute left-0 top-0 w-1 h-full bg-[var(--color-accent)]"></div>
                   <div>
                     <p className="font-black text-white tracking-wide text-sm mb-1">Match vs Player {match}</p>
                     <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">3 days ago • 6-4, 7-5</p>

@@ -39,15 +39,14 @@ export default function HelpPage() {
                 a: 'Yes, full refunds are available for cancellations made 24 hours or more before the booking time.',
               },
             ].map((faq, idx) => (
-              <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 hover:border-[var(--color-cyan-glow)]/40 transition-all group shadow-[0_0_20px_rgba(0,0,0,0.3)] relative overflow-hidden cursor-pointer">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-cyan-glow)]/5 rounded-full blur-2xl group-hover:bg-[var(--color-cyan-glow)]/10 transition-colors"></div>
+              <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.3)] relative overflow-hidden">
                 <div className="flex items-start justify-between gap-4 relative z-10">
                   <div>
-                    <h3 className="font-bold text-white mb-2 group-hover:text-[var(--color-cyan-glow)] transition-colors">{faq.q}</h3>
+                    <h3 className="font-bold text-white mb-2">{faq.q}</h3>
                     <p className="text-slate-400 text-sm font-semibold leading-relaxed">{faq.a}</p>
                   </div>
                   <div className="mt-1">
-                    <ChevronRight size={20} className="text-slate-600 group-hover:text-[var(--color-cyan-glow)] transition-colors" />
+                    <ChevronRight size={20} className="text-slate-600" />
                   </div>
                 </div>
               </div>

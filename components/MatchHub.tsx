@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Link from 'next/link';
 const PLAYERS = [
   { name: "Ben H.", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80", form: ["W", "W", "W", "L", "W"], streak: ["W", "W"], rating: ["60", "55", "57"] },
   { name: "Sarah K.", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80", form: ["W", "L", "W", "L", "L"], streak: ["L"], rating: ["52", "50", "51"] },
@@ -10,20 +10,20 @@ export default function MatchHub() {
   return (
     <div className="space-y-4">
       {PLAYERS.map((player, idx) => (
-        <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[var(--color-accent)]/50 transition-all cursor-pointer group relative overflow-hidden">
+        <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative overflow-hidden group">
           
-          <div className="absolute -left-10 top-0 w-20 h-full bg-[var(--color-accent)]/5 blur-2xl group-hover:bg-[var(--color-accent)]/10 transition-colors"></div>
+          <div className="absolute -left-10 top-0 w-20 h-full bg-[var(--color-accent)]/5 blur-2xl transition-colors"></div>
 
           {/* Avatar and Stats Identity */}
-          <div className="flex items-center gap-3 relative z-10">
+          <Link href="/profile" className="flex items-center gap-3 relative z-10 cursor-pointer group/link">
             <img 
               src={player.img} 
               alt={player.name} 
-              className="w-12 h-12 rounded-xl object-cover border border-[#1f2937] group-hover:border-[var(--color-accent)]/50 transition-colors"
+              className="w-12 h-12 rounded-xl object-cover border border-[#1f2937] group-hover/link:border-[var(--color-accent)]/50 transition-colors"
             />
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-sm font-bold text-white tracking-wide">{player.name}</h3>
+                <h3 className="text-sm font-bold text-white tracking-wide group-hover/link:text-[var(--color-accent)] transition-colors">{player.name}</h3>
                 <span className="bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20 text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">AVAILABLE</span>
               </div>
               
@@ -54,14 +54,14 @@ export default function MatchHub() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 w-full sm:w-auto relative z-10">
-            <button className="flex-1 sm:flex-none text-[11px] font-extrabold tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/40 hover:border-[var(--color-accent)] bg-[var(--color-accent)]/5 px-4 py-2 rounded-lg transition-all shadow-[0_0_10px_rgba(115,211,255,0.05)] hover:shadow-[0_0_15px_rgba(115,211,255,0.15)]">
+            <button className="flex-1 sm:flex-none text-[11px] font-extrabold tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/40 hover:border-[var(--color-accent)] bg-[var(--color-accent)]/5 px-4 py-2 rounded-lg transition-all shadow-[0_0_10px_rgba(115,211,255,0.05)] hover:shadow-[0_0_15px_rgba(115,211,255,0.15)] cursor-pointer">
               CHALLENGE
             </button>
-            <button className="flex-1 sm:flex-none text-[11px] font-extrabold tracking-widest text-black bg-[var(--color-cyan-glow)] hover:brightness-110 px-4 py-2 rounded-lg transition-all shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_20px_rgba(0,255,255,0.5)]">
+            <button className="flex-1 sm:flex-none text-[11px] font-extrabold tracking-widest text-black bg-[var(--color-cyan-glow)] hover:brightness-110 px-4 py-2 rounded-lg transition-all shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_20px_rgba(0,255,255,0.5)] cursor-pointer">
               JOIN MATCH
             </button>
           </div>

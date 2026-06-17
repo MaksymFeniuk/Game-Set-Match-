@@ -84,8 +84,8 @@ export default function BookingsPage() {
             <h3 className="text-sm font-black mb-4 text-slate-300 font-[var(--font-urbanist)] uppercase tracking-widest">PAST BOOKINGS</h3>
             <div className="space-y-2">
               {[1, 2, 3].map((past) => (
-                <div key={past} className="bg-[#0b101a] border border-[#1f2937] rounded-lg p-3 text-sm flex justify-between items-center group cursor-pointer hover:border-slate-600 transition-colors">
-                  <p className="font-bold text-slate-300 group-hover:text-white transition-colors">Court {past}</p>
+                <div key={past} className="bg-[#0b101a] border border-[#1f2937] rounded-lg p-3 text-sm flex justify-between items-center">
+                  <p className="font-bold text-slate-300">Court {past}</p>
                   <p className="text-slate-500 text-[11px] font-bold tracking-widest">April {10 - past}, 2024</p>
                 </div>
               ))}
