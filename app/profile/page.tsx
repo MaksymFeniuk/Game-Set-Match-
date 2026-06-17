@@ -1,20 +1,17 @@
 'use client';
 
-import { Edit, Trophy, Calendar } from 'lucide-react';
+import { Trophy, Calendar } from 'lucide-react';
 import { levelLabel } from '../../data/players';
 
-const PADEL_RATING = '3.4';
-const TENNIS_RATING = '5.3';
+const name = 'Maksym Feniuk';
+const padel = '3.4';
+const tennis = '5.3';
 
 export default function ProfilePage() {
   return (
     <div className="p-8 max-w-[1400px] mx-auto min-h-full">
-      <div className="flex items-center justify-between mb-8">
+      <div className="mb-8">
         <h1 className="text-3xl font-black text-white font-[var(--font-urbanist)] uppercase tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">MY PROFILE</h1>
-        <button className="flex items-center gap-2 text-[11px] font-extrabold tracking-widest text-black bg-[var(--color-accent)] hover:brightness-110 px-4 py-2.5 rounded-lg transition-all shadow-[0_0_15px_rgba(115,211,255,0.2)]">
-          <Edit size={16} />
-          EDIT PROFILE
-        </button>
       </div>
 
       <div className="grid grid-cols-12 gap-8">
@@ -24,28 +21,28 @@ export default function ProfilePage() {
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#1f2937] to-transparent"></div>
             <div className="relative z-10">
               <div className="w-28 h-28 bg-[#090e17] rounded-full mx-auto mb-4 flex items-center justify-center border-4 border-[var(--color-accent)] shadow-[0_0_20px_rgba(115,211,255,0.3)] overflow-hidden">
-                <img src="/maksymfeniuk.jpg" alt="Maksym Feniuk" className="w-full h-full object-cover" />
+                <img src="/maksymfeniuk.jpg" alt={name} className="w-full h-full object-cover" />
               </div>
-              <h2 className="text-2xl font-black text-center mb-3 text-white tracking-wide">Maksym Feniuk</h2>
+              <h2 className="text-2xl font-black text-center mb-3 text-white tracking-wide">{name}</h2>
               <div className="flex justify-center gap-2 mb-6">
                 <span className="bg-[var(--color-cyan-glow)]/10 text-[var(--color-cyan-glow)] border border-[var(--color-cyan-glow)]/20 text-[9px] px-2.5 py-1 rounded font-black uppercase tracking-widest">
-                  Padel {PADEL_RATING}
+                  Padel {padel}
                 </span>
                 <span className="bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20 text-[9px] px-2.5 py-1 rounded font-black uppercase tracking-widest">
-                  Tennis {TENNIS_RATING}
+                  Tennis {tennis}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 mb-3">
                 <div className="bg-[#090e17] border border-[#1f2937] rounded-lg p-4">
                   <p className="text-slate-500 text-[10px] font-black tracking-widest mb-1.5">PADEL</p>
-                  <p className="text-2xl font-black text-[var(--color-cyan-glow)] tracking-wider">{PADEL_RATING}</p>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{levelLabel(PADEL_RATING)}</p>
+                  <p className="text-2xl font-black text-[var(--color-cyan-glow)] tracking-wider">{padel}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{levelLabel(padel)}</p>
                 </div>
                 <div className="bg-[#090e17] border border-[#1f2937] rounded-lg p-4">
                   <p className="text-slate-500 text-[10px] font-black tracking-widest mb-1.5">TENNIS</p>
-                  <p className="text-2xl font-black text-[var(--color-accent)] tracking-wider">{TENNIS_RATING}</p>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{levelLabel(TENNIS_RATING)}</p>
+                  <p className="text-2xl font-black text-[var(--color-accent)] tracking-wider">{tennis}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{levelLabel(tennis)}</p>
                 </div>
               </div>
 
@@ -76,8 +73,8 @@ export default function ProfilePage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
               {[
-                { label: 'Padel rating', value: PADEL_RATING, color: 'text-[var(--color-cyan-glow)]' },
-                { label: 'Tennis rating', value: TENNIS_RATING, color: 'text-[var(--color-accent)]' },
+                { label: 'Padel rating', value: padel, color: 'text-[var(--color-cyan-glow)]' },
+                { label: 'Tennis rating', value: tennis, color: 'text-[var(--color-accent)]' },
                 { label: 'Streak', value: 'W3', color: 'text-[var(--color-neon-orange)]' },
                 { label: 'Form', value: 'W W W L W', color: 'text-[var(--color-accent)]' },
               ].map((stat) => (
