@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Search, Send, Phone, Video, Plus } from 'lucide-react';
 import { PLAYERS } from '../../data/players';
+import NewChatModal from '../../components/NewChatModal';
 
 interface Message {
   id: number;
@@ -115,6 +116,34 @@ export default function MessagesPage() {
   const [activeId, setActiveId] = useState(1);
   const [search, setSearch] = useState('');
   const [draft, setDraft] = useState('');
+  const [showNewChat, setShowNewChat] = useState(false);
+
+  const startChat = (playerId: number) => {
+    setShowNewChat(false);
+    const existing = conversations.find((c) => c.playerId === playerId);
+    if (existing) {
+      selectConversation(existing.id);
+      return;
+    }
+    const player = PLAYERS.find((p) => p.id === playerId);
+    if (!player) return;
+
+    const newId = Math.max(...conversations.map((c) => c.id)) + 1;
+    setConversations((prev) => [
+      {
+        id: newId,
+        playerId: player.id,
+        name: player.name,
+        avatar: player.image,
+        online: false,
+        unread: 0,
+        lastTime: 'now',
+        messages: [],
+      },
+      ...prev,
+    ]);
+    setActiveId(newId);
+  };
 
   const active = conversations.find((c) => c.id === activeId)!;
 
@@ -154,7 +183,10 @@ export default function MessagesPage() {
         {/* Conversations List */}
         <div className="col-span-12 lg:col-span-4 bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl overflow-hidden flex flex-col shadow-[0_0_30px_rgba(0,0,0,0.5)]">
           <div className="p-4 border-b border-[#1f2937] space-y-3">
-            <button className="w-full text-[12px] font-black tracking-widest text-black bg-[var(--color-accent)] hover:brightness-110 py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(115,211,255,0.2)]">
+            <button
+              onClick={() => setShowNewChat(true)}
+              className="w-full text-[12px] font-black tracking-widest text-black bg-[var(--color-accent)] hover:brightness-110 py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(115,211,255,0.2)]"
+            >
               <Plus size={18} />
               NEW MESSAGE
             </button>
@@ -201,7 +233,7 @@ export default function MessagesPage() {
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <p className="text-xs font-bold text-slate-400 truncate">
-                        {preview.from === 'me' ? 'You: ' : ''}{preview.text}
+                        {preview ? `${preview.from === 'me' ? 'You: ' : ''}${preview.text}` : 'Start the conversation'}
                       </p>
                       {chat.unread > 0 && (
                         <span className="flex-none w-5 h-5 rounded-full bg-[var(--color-accent)] text-[#090e17] text-[10px] font-black flex items-center justify-center">
@@ -242,6 +274,12 @@ export default function MessagesPage() {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+            {active.messages.length === 0 && (
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <p className="text-sm font-black text-white tracking-wide">No messages yet</p>
+                <p className="text-xs font-bold text-slate-500 mt-2 tracking-wide">Say hi to {active.name} to start the conversation.</p>
+              </div>
+            )}
             {active.messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.from === 'me' ? 'justify-end' : 'justify-start'}`}>
                 <div
@@ -281,6 +319,14 @@ export default function MessagesPage() {
           </div>
         </div>
       </div>
+
+      {showNewChat && (
+        <NewChatModal
+          existingPlayerIds={conversations.map((c) => c.playerId)}
+          onSelect={startChat}
+          onClose={() => setShowNewChat(false)}
+        />
+      )}
     </div>
   );
 }
