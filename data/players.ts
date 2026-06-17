@@ -23,6 +23,7 @@ export const PLAYERS: Player[] = [
   {
     id: 1,
     name: 'Sarah K.',
+    gender: 'F',
     sport: 'Padel',
     padelLevel: '3.2',
     tennisLevel: '5.7',
@@ -34,6 +35,7 @@ export const PLAYERS: Player[] = [
   {
     id: 2,
     name: 'Ben H.',
+    gender: 'M',
     sport: 'Tennis',
     padelLevel: '4.3',
     tennisLevel: '2.1',
@@ -45,6 +47,7 @@ export const PLAYERS: Player[] = [
   {
     id: 3,
     name: 'Mila V.',
+    gender: 'F',
     sport: 'Padel',
     padelLevel: '5.6',
     tennisLevel: '7.2',
@@ -56,6 +59,7 @@ export const PLAYERS: Player[] = [
   {
     id: 4,
     name: 'Alex R.',
+    gender: 'M',
     sport: 'Tennis',
     padelLevel: '4.8',
     tennisLevel: '3.9',
@@ -67,6 +71,7 @@ export const PLAYERS: Player[] = [
   {
     id: 5,
     name: 'Noah S.',
+    gender: 'M',
     sport: 'Padel',
     padelLevel: '8.1',
     tennisLevel: '8.7',
@@ -78,6 +83,7 @@ export const PLAYERS: Player[] = [
   {
     id: 6,
     name: 'Emma L.',
+    gender: 'F',
     sport: 'Padel',
     padelLevel: '1.6',
     tennisLevel: '3.4',
@@ -89,6 +95,7 @@ export const PLAYERS: Player[] = [
   {
     id: 7,
     name: 'Lucas D.',
+    gender: 'M',
     sport: 'Tennis',
     padelLevel: '6.3',
     tennisLevel: '5.8',
@@ -100,6 +107,7 @@ export const PLAYERS: Player[] = [
   {
     id: 8,
     name: 'Sofia M.',
+    gender: 'F',
     sport: 'Padel',
     padelLevel: '6.7',
     tennisLevel: '7.9',
@@ -111,6 +119,7 @@ export const PLAYERS: Player[] = [
   {
     id: 9,
     name: 'Daniel P.',
+    gender: 'M',
     sport: 'Tennis',
     padelLevel: '5.2',
     tennisLevel: '3.6',
@@ -122,6 +131,7 @@ export const PLAYERS: Player[] = [
   {
     id: 10,
     name: 'Isabella G.',
+    gender: 'F',
     sport: 'Padel',
     padelLevel: '8.4',
     tennisLevel: '7.8',
@@ -133,6 +143,7 @@ export const PLAYERS: Player[] = [
   {
     id: 11,
     name: 'Max F.',
+    gender: 'M',
     sport: 'Tennis',
     padelLevel: '3.7',
     tennisLevel: '2.3',
@@ -144,6 +155,7 @@ export const PLAYERS: Player[] = [
   {
     id: 12,
     name: 'Nina T.',
+    gender: 'F',
     sport: 'Padel',
     padelLevel: '5.1',
     tennisLevel: '6.2',

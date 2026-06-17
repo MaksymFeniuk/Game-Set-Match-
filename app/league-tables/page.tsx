@@ -1,8 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { Trophy } from 'lucide-react';
 import Link from 'next/link';
 import { PLAYERS, levelLabel } from '../../data/players';
+
+const GENDER_FILTERS = ['All', 'Men', 'Women'] as const;
+type GenderFilter = (typeof GENDER_FILTERS)[number];
 
 // A player's best (lowest) rating across both sports, plus which sport it's in.
 const bestRating = (padel: string, tennis: string) => {
@@ -13,16 +17,20 @@ const bestRating = (padel: string, tennis: string) => {
     : { sport: 'Tennis', rating: tennis };
 };
 
-// Global ranking: strongest players first (lower rating is stronger).
-const RANKED = [...PLAYERS].sort(
-  (a, b) =>
-    Number(bestRating(a.padelLevel, a.tennisLevel).rating) -
-    Number(bestRating(b.padelLevel, b.tennisLevel).rating)
-);
-
 export default function LeagueTablesPage() {
-  const global = RANKED.slice(0, 10);
-  const tournament = RANKED.slice(0, 8);
+  const [gender, setGender] = useState<GenderFilter>('All');
+
+  // Filter by gender, then rank strongest-first (lower rating is stronger).
+  const ranked = [...PLAYERS]
+    .filter((player) => gender === 'All' || (gender === 'Men' ? player.gender === 'M' : player.gender === 'F'))
+    .sort(
+      (a, b) =>
+        Number(bestRating(a.padelLevel, a.tennisLevel).rating) -
+        Number(bestRating(b.padelLevel, b.tennisLevel).rating)
+    );
+
+  const global = ranked.slice(0, 10);
+  const tournament = ranked.slice(0, 8);
 
   return (
     <div className="p-8 max-w-[1400px] mx-auto min-h-full">
@@ -31,6 +39,20 @@ export default function LeagueTablesPage() {
           <Trophy size={36} className="text-[var(--color-neon-orange)] drop-shadow-[0_0_15px_rgba(255,107,0,0.4)]" />
           LEAGUE TABLES
         </h1>
+
+        <div className="flex rounded-full bg-[var(--color-dark-card)] border border-[#1f2937] p-1">
+          {GENDER_FILTERS.map((option) => (
+            <button
+              key={option}
+              onClick={() => setGender(option)}
+              className={`px-5 py-2 rounded-full text-[10px] font-black tracking-widest transition-colors ${
+                gender === option ? 'bg-[var(--color-accent)] text-[#090e17]' : 'text-slate-500 hover:text-white'
+              }`}
+            >
+              {option.toUpperCase()}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-12 gap-8">
@@ -115,7 +137,7 @@ export default function LeagueTablesPage() {
           { label: 'TOTAL PLAYERS', value: '1,234' },
           { label: 'ACTIVE LEAGUES', value: '8' },
           { label: 'MATCHES THIS WEEK', value: '342' },
-          { label: 'TOP RATING', value: bestRating(RANKED[0].padelLevel, RANKED[0].tennisLevel).rating },
+          { label: 'TOP RATING', value: ranked[0] ? bestRating(ranked[0].padelLevel, ranked[0].tennisLevel).rating : '–' },
         ].map((stat) => (
           <div key={stat.label} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-2xl"></div>
