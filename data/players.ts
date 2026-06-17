@@ -1,20 +1,31 @@
 export interface Player {
   id: number;
   name: string;
+  gender: 'M' | 'F';
   sport: string;
-  level: string;
+  padelLevel: string;
+  tennisLevel: string;
   distance: string;
   followers: string;
   tags: string[];
   image: string;
 }
 
+// Dutch-style rating: lower is stronger. 1-4 Advanced, 5-7 Intermediate, 8+ Beginner.
+export const levelLabel = (level: string) => {
+  const value = Number(level);
+  if (value <= 4) return 'Advanced';
+  if (value <= 7) return 'Intermediate';
+  return 'Beginner';
+};
+
 export const PLAYERS: Player[] = [
   {
     id: 1,
     name: 'Sarah K.',
     sport: 'Padel',
-    level: '3',
+    padelLevel: '3.2',
+    tennisLevel: '5.7',
     distance: '1.8 km',
     followers: '128',
     tags: ['Evenings', 'Doubles', 'Competitive'],
@@ -24,7 +35,8 @@ export const PLAYERS: Player[] = [
     id: 2,
     name: 'Ben H.',
     sport: 'Tennis',
-    level: '2',
+    padelLevel: '4.3',
+    tennisLevel: '2.1',
     distance: '2.4 km',
     followers: '96',
     tags: ['Singles', 'Weekends', 'League'],
@@ -34,7 +46,8 @@ export const PLAYERS: Player[] = [
     id: 3,
     name: 'Mila V.',
     sport: 'Padel',
-    level: '5.5',
+    padelLevel: '5.6',
+    tennisLevel: '7.2',
     distance: '3.1 km',
     followers: '174',
     tags: ['Social', 'Mixed', 'After work'],
@@ -44,7 +57,8 @@ export const PLAYERS: Player[] = [
     id: 4,
     name: 'Alex R.',
     sport: 'Tennis',
-    level: '4',
+    padelLevel: '4.8',
+    tennisLevel: '3.9',
     distance: '0.9 km',
     followers: '142',
     tags: ['Mornings', 'Singles', 'Drills'],
@@ -54,7 +68,8 @@ export const PLAYERS: Player[] = [
     id: 5,
     name: 'Noah S.',
     sport: 'Padel',
-    level: '8',
+    padelLevel: '8.1',
+    tennisLevel: '8.7',
     distance: '4.2 km',
     followers: '58',
     tags: ['Beginner', 'Doubles', 'Casual'],
@@ -64,7 +79,8 @@ export const PLAYERS: Player[] = [
     id: 6,
     name: 'Emma L.',
     sport: 'Padel',
-    level: '1.5',
+    padelLevel: '1.6',
+    tennisLevel: '3.4',
     distance: '2.0 km',
     followers: '203',
     tags: ['Competitive', 'Evenings', 'League'],
@@ -74,7 +90,8 @@ export const PLAYERS: Player[] = [
     id: 7,
     name: 'Lucas D.',
     sport: 'Tennis',
-    level: '6',
+    padelLevel: '6.3',
+    tennisLevel: '5.8',
     distance: '5.1 km',
     followers: '77',
     tags: ['Weekends', 'Social', 'Doubles'],
@@ -84,7 +101,8 @@ export const PLAYERS: Player[] = [
     id: 8,
     name: 'Sofia M.',
     sport: 'Padel',
-    level: '6.5',
+    padelLevel: '6.7',
+    tennisLevel: '7.9',
     distance: '1.4 km',
     followers: '165',
     tags: ['Mixed', 'After work', 'Friendly'],
@@ -94,7 +112,8 @@ export const PLAYERS: Player[] = [
     id: 9,
     name: 'Daniel P.',
     sport: 'Tennis',
-    level: '3.5',
+    padelLevel: '5.2',
+    tennisLevel: '3.6',
     distance: '3.7 km',
     followers: '119',
     tags: ['Singles', 'Competitive', 'Mornings'],
@@ -104,7 +123,8 @@ export const PLAYERS: Player[] = [
     id: 10,
     name: 'Isabella G.',
     sport: 'Padel',
-    level: '8.5',
+    padelLevel: '8.4',
+    tennisLevel: '7.8',
     distance: '2.6 km',
     followers: '88',
     tags: ['Casual', 'Doubles', 'Evenings'],
@@ -114,7 +134,8 @@ export const PLAYERS: Player[] = [
     id: 11,
     name: 'Max F.',
     sport: 'Tennis',
-    level: '2',
+    padelLevel: '3.7',
+    tennisLevel: '2.3',
     distance: '0.7 km',
     followers: '241',
     tags: ['League', 'Competitive', 'Singles'],
@@ -124,7 +145,8 @@ export const PLAYERS: Player[] = [
     id: 12,
     name: 'Nina T.',
     sport: 'Padel',
-    level: '5',
+    padelLevel: '5.1',
+    tennisLevel: '6.2',
     distance: '4.9 km',
     followers: '103',
     tags: ['Social', 'Mixed', 'Weekends'],

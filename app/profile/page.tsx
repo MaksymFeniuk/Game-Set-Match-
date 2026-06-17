@@ -1,17 +1,10 @@
 'use client';
 
 import { Edit, Trophy, Calendar } from 'lucide-react';
+import { levelLabel } from '../../data/players';
 
-// Dutch-style rating: lower is stronger. 1-4 Advanced, 5-7 Intermediate, 8+ Beginner.
-const levelLabel = (level: string) => {
-  const value = Number(level);
-  if (value <= 4) return 'Advanced';
-  if (value <= 7) return 'Intermediate';
-  return 'Beginner';
-};
-
-const PADEL_RATING = '3.5';
-const TENNIS_RATING = '5.0';
+const PADEL_RATING = '3.4';
+const TENNIS_RATING = '5.3';
 
 export default function ProfilePage() {
   return (

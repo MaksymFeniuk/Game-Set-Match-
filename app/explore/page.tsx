@@ -378,7 +378,7 @@ export default function ExplorePage() {
                       <div className="min-w-0">
                         <h3 className="text-sm font-black text-white tracking-wide truncate group-hover:text-[var(--color-accent)] transition-colors">{player.name}</h3>
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5 truncate">
-                          {player.sport} · {player.level}
+                          Padel {player.padelLevel} · Tennis {player.tennisLevel}
                         </p>
                       </div>
                     </Link>

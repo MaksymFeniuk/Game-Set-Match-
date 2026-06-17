@@ -90,7 +90,7 @@ export default function Header() {
                       <div className="min-w-0">
                         <p className="text-sm font-black text-white tracking-wide truncate">{player.name}</p>
                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5 truncate">
-                          {player.sport} · Level {player.level} · {player.distance}
+                          Padel {player.padelLevel} · Tennis {player.tennisLevel} · {player.distance}
                         </p>
                       </div>
                     </Link>
