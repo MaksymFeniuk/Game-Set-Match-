@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CalendarDays, Clock, MapPin, Plus, Trophy, Users } from 'lucide-react';
 import { PLAYERS } from '../../data/players';
@@ -57,8 +57,48 @@ const PAST = [
 
 export default function MatchesPage() {
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [upcoming, setUpcoming] = useState(UPCOMING);
   const [inviteFor, setInviteFor] = useState<number | null>(null);
+  const [leaveFor, setLeaveFor] = useState<number | null>(null);
   const [invited, setInvited] = useState<Record<number, number[]>>({});
+
+  const leaveMatch = (id: number) => {
+    setUpcoming((current) => current.filter((m) => m.id !== id));
+    setLeaveFor(null);
+  };
+
+  // If we arrived here from a "Challenge" button, create a 1-v-1 match with that player invited.
+  useEffect(() => {
+    const challengedId = sessionStorage.getItem('challengePlayer');
+    if (!challengedId) return;
+    sessionStorage.removeItem('challengePlayer');
+
+    const player = PLAYERS.find((p) => p.id === Number(challengedId));
+    if (!player) return;
+
+    const newId = 2000 + player.id;
+    setUpcoming((current) =>
+      current.some((m) => m.id === newId)
+        ? current
+        : [
+            {
+              id: newId,
+              sport: player.sport,
+              format: 'Singles',
+              title: `Challenge vs ${player.name}`,
+              club: player.sport === 'Padel' ? 'Club XNRGY Eindhoven' : 'Downtown Tennis Club',
+              date: 'Today',
+              time: '19:00 - 20:30',
+              status: 'Waiting for players',
+              players: [player.id],
+              spots: '1/2 players',
+            },
+            ...current,
+          ]
+    );
+    setInvited((current) => ({ ...current, [newId]: [player.id] }));
+    setTab('upcoming');
+  }, []);
 
   const toggleInvite = (matchId: number, playerId: number) => {
     setInvited((current) => {
@@ -70,7 +110,8 @@ export default function MatchesPage() {
     });
   };
 
-  const activeMatch = UPCOMING.find((m) => m.id === inviteFor);
+  const activeMatch = upcoming.find((m) => m.id === inviteFor);
+  const leavingMatch = upcoming.find((m) => m.id === leaveFor);
 
   // Open spots remaining from a "3/4 players" string.
   const openSpots = (spots: string) => {
@@ -114,9 +155,22 @@ export default function MatchesPage() {
             ))}
           </div>
 
+          {tab === 'upcoming' && upcoming.length === 0 && (
+            <div className="bg-[var(--color-dark-card)] border border-dashed border-[#1f2937] rounded-xl p-10 text-center">
+              <p className="text-sm font-black text-white tracking-wide">No upcoming matches</p>
+              <p className="text-xs font-bold text-slate-500 mt-2 tracking-wide">Find an open game to get back on court.</p>
+              <Link
+                href="/explore"
+                className="inline-flex mt-5 text-[10px] font-black tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg px-4 py-2.5 hover:border-[var(--color-accent)] transition-colors"
+              >
+                EXPLORE MATCHES
+              </Link>
+            </div>
+          )}
+
           {tab === 'upcoming' && (
             <div className="space-y-4">
-              {UPCOMING.map((match) => {
+              {upcoming.map((match) => {
                 const spotsLeft = openSpots(match.spots);
                 const full = spotsLeft <= 0;
                 return (
@@ -188,7 +242,10 @@ export default function MatchesPage() {
                         ? `INVITED (${invited[match.id].length})`
                         : 'INVITE PLAYERS'}
                     </button>
-                    <button className="px-6 py-2.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] font-extrabold uppercase tracking-widest rounded-lg hover:bg-red-500/20 hover:border-red-500/40 transition-colors">
+                    <button
+                      onClick={() => setLeaveFor(match.id)}
+                      className="px-6 py-2.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] font-extrabold uppercase tracking-widest rounded-lg hover:bg-red-500/20 hover:border-red-500/40 transition-colors"
+                    >
                       LEAVE
                     </button>
                   </div>
@@ -242,7 +299,7 @@ export default function MatchesPage() {
             <div className="absolute -right-10 -top-10 w-32 h-32 bg-[var(--color-cyan-glow)]/5 blur-3xl"></div>
             <div className="relative z-10">
               <p className="text-slate-400 text-[11px] font-bold tracking-widest mb-1">UPCOMING MATCHES</p>
-              <p className="text-4xl font-black text-white">{UPCOMING.length}</p>
+              <p className="text-4xl font-black text-white">{upcoming.length}</p>
             </div>
             <div className="border-t border-[#1f2937] pt-5 relative z-10">
               <p className="text-slate-400 text-[11px] font-bold tracking-widest mb-1">MATCHES PLAYED</p>
@@ -278,6 +335,16 @@ export default function MatchesPage() {
           invited={invited[activeMatch.id] ?? []}
           onToggle={(playerId) => toggleInvite(activeMatch.id, playerId)}
           onClose={() => setInviteFor(null)}
+        />
+      )}
+
+      {leavingMatch && (
+        <ConfirmDialog
+          title="Leave this match?"
+          message={`Are you sure you want to leave "${leavingMatch.title}"? It will be removed from your matches.`}
+          confirmLabel="LEAVE MATCH"
+          onConfirm={() => leaveMatch(leavingMatch.id)}
+          onClose={() => setLeaveFor(null)}
         />
       )}
     </div>

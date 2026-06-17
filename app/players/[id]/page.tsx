@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, MapPin, MessageCircle, Trophy, UserPlus, Users } from 'lucide-react';
 import { PLAYERS, levelLabel } from '../../../data/players';
 
@@ -16,10 +16,17 @@ const playerStats = (id: number) => {
 
 export default function PlayerProfilePage() {
   const params = useParams();
+  const router = useRouter();
   const id = Number(params.id);
   const player = PLAYERS.find((p) => p.id === id);
 
   const [following, setFollowing] = useState(false);
+
+  const challenge = () => {
+    if (!player) return;
+    sessionStorage.setItem('challengePlayer', String(player.id));
+    router.push('/matches');
+  };
 
   if (!player) {
     return (
@@ -103,7 +110,10 @@ export default function PlayerProfilePage() {
               </button>
 
               <div className="grid grid-cols-2 gap-2 mt-3">
-                <button className="flex items-center justify-center gap-2 text-[10px] font-black tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg py-2.5 hover:border-[var(--color-accent)] transition-colors">
+                <button
+                  onClick={challenge}
+                  className="flex items-center justify-center gap-2 text-[10px] font-black tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg py-2.5 hover:border-[var(--color-accent)] transition-colors"
+                >
                   <UserPlus size={14} />
                   CHALLENGE
                 </button>
