@@ -1,23 +1,18 @@
 'use client';
 
-import { Plus } from 'lucide-react';
-
 export default function CourtCard() {
   return (
-    <div className="bg-[#1a1f26] border border-[#2a3038] rounded-lg p-6 hover:border-[#73d3ff] transition-colors cursor-pointer">
-      <div className="text-sm font-semibold text-gray-400 mb-2">Padel Type: 1</div>
-      <h3 className="text-lg font-bold mb-3">CLUB XNRGY (Amsterdam)</h3>
-      <div className="text-xs text-gray-500 mb-4">
-        <div>Court Type: 2</div>
-        <div>Padel / Court 3</div>
-        <div>Court Type: 4</div>
+    <div className="bg-[#121A30]/40 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-sm hover:border-slate-700/60 transition-all">
+      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Padel Type: 1</div>
+      <h3 className="text-sm font-bold text-white tracking-wide mb-3">CLUB XNRGY (Amsterdam)</h3>
+      <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] text-slate-500 font-semibold mb-6">
+        <span>Court Type: 2</span>
+        <span>Padel / Court 3</span>
+        <span>Court Type: 4</span>
       </div>
-      <div className="flex gap-2">
-        <button className="flex-1 btn-accent-secondary flex items-center justify-center gap-2">
-          <Plus size={16} />
-          BOOK
-        </button>
-      </div>
+      <button className="w-full text-[11px] font-black tracking-widest text-[#73D3FF] border border-[#73D3FF]/30 hover:border-[#73D3FF] bg-[#73D3FF]/5 py-2.5 rounded-lg transition-all">
+        + BOOK
+      </button>
     </div>
   );
 }

@@ -1,21 +1,21 @@
 'use client';
 
-import { HelpCircle, Mail, AlertCircle } from 'lucide-react';
+import { HelpCircle, Mail, AlertCircle, ChevronRight } from 'lucide-react';
 
 export default function HelpPage() {
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-10">
-        <h1 className="text-4xl font-black text-[#73d3ff] flex items-center gap-3">
-          <HelpCircle size={40} />
+    <div className="p-8 max-w-[1400px] mx-auto min-h-full">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-black text-white font-[var(--font-urbanist)] uppercase tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.1)] flex items-center gap-4">
+          <HelpCircle size={36} className="text-[var(--color-accent)] drop-shadow-[0_0_15px_rgba(115,211,255,0.4)]" />
           HELP & SUPPORT
         </h1>
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-12 gap-8">
         {/* FAQs */}
-        <div>
-          <h2 className="text-2xl font-black mb-6 text-[#73d3ff]">FREQUENTLY ASKED QUESTIONS</h2>
+        <div className="col-span-12 lg:col-span-7">
+          <h2 className="text-lg font-black mb-4 text-[var(--color-cyan-glow)] font-[var(--font-urbanist)] uppercase tracking-widest">FREQUENTLY ASKED QUESTIONS</h2>
           <div className="space-y-4">
             {[
               {
@@ -39,58 +39,67 @@ export default function HelpPage() {
                 a: 'Yes, full refunds are available for cancellations made 24 hours or more before the booking time.',
               },
             ].map((faq, idx) => (
-              <div key={idx} className="bg-[#1a1f26] border border-[#2a3038] rounded-lg p-6 hover:border-[#73d3ff] transition-colors">
-                <h3 className="font-bold mb-2 text-[#73d3ff]">{faq.q}</h3>
-                <p className="text-gray-400 text-sm">{faq.a}</p>
+              <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 hover:border-[var(--color-cyan-glow)]/40 transition-all group shadow-[0_0_20px_rgba(0,0,0,0.3)] relative overflow-hidden cursor-pointer">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-cyan-glow)]/5 rounded-full blur-2xl group-hover:bg-[var(--color-cyan-glow)]/10 transition-colors"></div>
+                <div className="flex items-start justify-between gap-4 relative z-10">
+                  <div>
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[var(--color-cyan-glow)] transition-colors">{faq.q}</h3>
+                    <p className="text-slate-400 text-sm font-semibold leading-relaxed">{faq.a}</p>
+                  </div>
+                  <div className="mt-1">
+                    <ChevronRight size={20} className="text-slate-600 group-hover:text-[var(--color-cyan-glow)] transition-colors" />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Support & Info */}
-        <div className="space-y-6">
-          <div className="bg-[#1a1f26] border border-[#2a3038] rounded-lg p-6">
-            <h2 className="text-2xl font-black mb-6 text-[#73d3ff] flex items-center gap-2">
-              <Mail size={24} />
+        <div className="col-span-12 lg:col-span-5 space-y-8">
+          <div className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <h2 className="text-lg font-black mb-6 text-white font-[var(--font-urbanist)] uppercase tracking-widest flex items-center gap-3">
+              <Mail size={20} className="text-[var(--color-neon-orange)]" />
               CONTACT US
             </h2>
-            <p className="text-gray-400 mb-4">Have a question or need assistance? Reach out to our support team.</p>
+            <p className="text-slate-400 text-sm font-semibold mb-6">Have a question or need assistance? Reach out to our support team.</p>
             <form className="space-y-4">
               <input
                 type="email"
-                placeholder="Your Email"
-                className="w-full px-4 py-2 bg-[#0f1419] border border-[#2a3038] rounded-lg focus:border-[#73d3ff] focus:outline-none text-gray-300"
+                placeholder="YOUR EMAIL"
+                className="w-full px-5 py-3.5 bg-[#090e17] border border-[#1f2937] rounded-xl focus:border-[var(--color-neon-orange)]/50 focus:outline-none text-white placeholder-slate-600 text-xs font-bold tracking-widest transition-all"
               />
               <textarea
-                placeholder="Your Message"
+                placeholder="YOUR MESSAGE"
                 rows={4}
-                className="w-full px-4 py-2 bg-[#0f1419] border border-[#2a3038] rounded-lg focus:border-[#73d3ff] focus:outline-none text-gray-300 resize-none"
+                className="w-full px-5 py-3.5 bg-[#090e17] border border-[#1f2937] rounded-xl focus:border-[var(--color-neon-orange)]/50 focus:outline-none text-white placeholder-slate-600 text-xs font-bold tracking-widest transition-all resize-none"
               />
-              <button className="btn-accent w-full">SEND MESSAGE</button>
+              <button className="w-full text-[12px] font-black tracking-widest text-[#090e17] bg-[var(--color-neon-orange)] hover:brightness-110 py-3.5 rounded-xl transition-all shadow-[0_0_15px_rgba(255,107,0,0.2)] hover:shadow-[0_0_25px_rgba(255,107,0,0.4)]">
+                SEND MESSAGE
+              </button>
             </form>
           </div>
 
-          <div className="bg-[#1a1f26] border border-[#2a3038] rounded-lg p-6">
-            <h3 className="text-lg font-black mb-4 text-[#73d3ff] flex items-center gap-2">
-              <AlertCircle size={20} />
+          <div className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <h3 className="text-lg font-black mb-6 text-white font-[var(--font-urbanist)] uppercase tracking-widest flex items-center gap-3">
+              <AlertCircle size={20} className="text-[var(--color-accent)]" />
               IMPORTANT INFO
             </h3>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li>• Service hours: Monday to Friday, 9 AM - 6 PM</li>
-              <li>• Response time: Within 24 hours</li>
-              <li>• Email: support@gamesetmatch.com</li>
-              <li>• Phone: +31-20-123-4567</li>
-              <li>• Live chat available during service hours</li>
+            <ul className="space-y-3 text-sm text-slate-400 font-bold">
+              <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full shadow-[0_0_5px_rgba(115,211,255,0.8)]"></span> Service hours: Monday to Friday, 9 AM - 6 PM</li>
+              <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full shadow-[0_0_5px_rgba(115,211,255,0.8)]"></span> Response time: Within 24 hours</li>
+              <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full shadow-[0_0_5px_rgba(115,211,255,0.8)]"></span> Email: <span className="text-[var(--color-accent)]">support@gamesetmatch.com</span></li>
+              <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 bg-[var(--color-accent)] rounded-full shadow-[0_0_5px_rgba(115,211,255,0.8)]"></span> Phone: +31-20-123-4567</li>
             </ul>
           </div>
 
-          <div className="bg-[#1a1f26] border border-[#2a3038] rounded-lg p-6">
-            <h3 className="text-lg font-black mb-4 text-[#73d3ff]">RESOURCES</h3>
+          <div className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <h3 className="text-lg font-black mb-6 text-white font-[var(--font-urbanist)] uppercase tracking-widest">RESOURCES</h3>
             <ul className="space-y-2">
-              {['Terms of Service', 'Privacy Policy', 'Community Guidelines', 'Safety Tips'].map((link) => (
+              {['TERMS OF SERVICE', 'PRIVACY POLICY', 'COMMUNITY GUIDELINES', 'SAFETY TIPS'].map((link) => (
                 <button
                   key={link}
-                  className="block w-full text-left px-4 py-2 text-[#73d3ff] hover:bg-[#0f1419] rounded transition-colors"
+                  className="block w-full text-left px-5 py-3 text-slate-400 text-[11px] font-black tracking-widest hover:text-[var(--color-accent)] hover:bg-[#090e17] rounded-lg border border-transparent hover:border-[#1f2937] transition-all"
                 >
                   {link}
                 </button>

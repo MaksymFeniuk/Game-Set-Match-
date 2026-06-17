@@ -1,64 +1,29 @@
 'use client';
 
-import { Star, Trophy } from 'lucide-react';
-
 export default function PlayerCard() {
   return (
-    <div className="bg-[#1a1f26] border border-[#2a3038] rounded-lg p-6 hover:border-[#73d3ff] transition-colors">
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <h3 className="text-lg font-bold">Ben H.</h3>
-          <span className="text-xs px-2 py-1 bg-[#73d3ff] text-black rounded font-semibold">
-            AVAILABLE
-          </span>
-        </div>
+    <div className="bg-[#121A30]/50 border border-slate-800 rounded-xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-sm font-bold text-white">Ben H.</h3>
+        <span className="bg-[#73D3FF]/20 text-[#73D3FF] text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">AVAILABLE</span>
       </div>
 
-      <div className="space-y-3 mb-4 text-sm">
-        <div>
-          <span className="text-gray-500">Form</span>
-          <div className="flex gap-1 mt-1">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className={`w-2 h-2 rounded-full ${
-                  i <= 2 ? 'bg-[#73d3ff]' : 'bg-gray-600'
-                }`}
-              />
-            ))}
+      <div className="space-y-3 mb-6">
+        {['Form', 'Streak', 'Rating'].map((label) => (
+          <div key={label} className="flex justify-between items-center text-[10px]">
+            <span className="text-slate-500 font-bold uppercase tracking-wider">{label}</span>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className={`w-2 h-2 rounded-full ${i <= 3 ? 'bg-[#73D3FF]' : 'bg-slate-700'}`} />
+              ))}
+            </div>
           </div>
-        </div>
-        <div>
-          <span className="text-gray-500">Streak</span>
-          <div className="flex gap-1 mt-1">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className={`w-2 h-2 rounded-full ${
-                  i <= 3 ? 'bg-[#73d3ff]' : 'bg-gray-600'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-        <div>
-          <span className="text-gray-500">Rating</span>
-          <div className="flex gap-1 mt-1">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className={`w-2 h-2 rounded-full ${
-                  i <= 3 ? 'bg-[#73d3ff]' : 'bg-gray-600'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
 
       <div className="flex gap-2">
-        <button className="flex-1 btn-accent">CHALLENGE</button>
-        <button className="flex-1 btn-accent">JOIN MATCH</button>
+        <button className="flex-1 text-[10px] font-extrabold tracking-widest text-slate-300 hover:text-white transition-colors">CHALLENGE</button>
+        <button className="flex-1 text-[10px] font-extrabold tracking-widest text-black bg-[#73D3FF] hover:bg-[#62b9e0] py-2 rounded-lg transition-all">JOIN MATCH</button>
       </div>
     </div>
   );
