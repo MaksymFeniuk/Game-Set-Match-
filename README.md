@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Game! Set! Match!
 
-## Getting Started
+Tennis & Padel matchmaking platform built with **Next.js 16**, **React**, **TypeScript**, and **Tailwind CSS**.
 
-First, run the development server:
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📄 Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Dashboard** (`/`) - Quick access to courts, matches, and events
+- **Explore** (`/explore`) - Find courts and nearby players
+- **Profile** (`/profile`) - Your stats, achievements, and match history
+- **Bookings** (`/bookings`) - Manage your court reservations
+- **League Tables** (`/league-tables`) - Rankings and tournaments
+- **Messages** (`/messages`) - Chat with other players
+- **Help** (`/help`) - FAQs and support
 
-## Learn More
+## 🎨 Design
 
-To learn more about Next.js, take a look at the following resources:
+- **Theme**: Dark mode (#0F1419) with light blue accents (#73D3FF)
+- **Icons**: Lucide React
+- **CSS**: Tailwind CSS v4 with responsive design
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/                          # Next.js pages
+  ├── page.tsx               # Dashboard
+  ├── explore/page.tsx       # Browse
+  ├── profile/page.tsx       # User profile
+  ├── bookings/page.tsx      # Reservations
+  ├── league-tables/page.tsx # Rankings
+  ├── messages/page.tsx      # Chat
+  ├── help/page.tsx          # Support
+  ├── layout.tsx             # Root layout
+  └── globals.css            # Global styles
 
-## Deploy on Vercel
+components/
+  ├── Header.tsx             # Top navigation
+  ├── Sidebar.tsx            # Left sidebar
+  ├── CourtCard.tsx          # Court component
+  ├── PlayerCard.tsx         # Player component
+  └── EventCard.tsx          # Event component
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+tailwind.config.ts            # Tailwind configuration
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tech Stack
+
+- **Next.js 16** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS v4** - Styling
+- **Lucide React** - Icons
+- **ESLint** - Code quality
+
+## ⚙️ Key Files
+
+- `tailwind.config.ts` - Theme colors and custom config
+- `app/globals.css` - Global styles and utilities
+- `app/layout.tsx` - Main layout with Header and Sidebar
+- `package.json` - Dependencies and scripts
+
+## 📝 Notes
+
+- All pages use the `'use client'` directive for interactivity
+- Custom button styles: `.btn-accent` and `.btn-accent-secondary`
+- Components are modular and reusable
+- Ready to connect to backend APIs
+
+---
+
+**Ready to develop!** Edit pages in `app/` and components in `components/`.

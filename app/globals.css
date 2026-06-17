@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0f1419;
+  color: #e5e7eb;
+  font-family: var(--font-geist-sans);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1f26;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #73d3ff;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4db8e8;
+}
+
+/* Accent button styles */
+@layer components {
+  .btn-accent {
+    @apply px-6 py-2 bg-[#73d3ff] text-black font-semibold rounded-lg hover:bg-[#4db8e8] transition-colors;
+  }
+
+  .btn-accent-secondary {
+    @apply px-6 py-2 bg-[#1a1f26] text-[#73d3ff] font-semibold rounded-lg border border-[#73d3ff] hover:bg-[#73d3ff] hover:text-black transition-colors;
+  }
+
+  .grid-responsive {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
 }
