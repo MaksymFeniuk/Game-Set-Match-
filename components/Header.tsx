@@ -1,13 +1,21 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Header() {
+  const pathname = usePathname();
   const AVAILABLE_FILTERS = ['Padel', 'Tennis', 'Nearby', 'Level 4.0+', 'Available Now'];
   const [filters, setFilters] = useState<string[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const NAV_LINKS = [
+    { label: 'MY BOOKINGS', href: '/bookings' },
+    { label: 'LEAGUE TABLES', href: '/league-tables' },
+    { label: 'MESSAGES', href: '/messages' },
+  ];
 
   const removeFilter = (filterToRemove: string) => {
     setFilters(filters.filter(f => f !== filterToRemove));
@@ -93,15 +101,22 @@ export default function Header() {
 
         {/* Right Nav */}
         <div className="flex items-center gap-6">
-          <Link href="/bookings" className="text-xs font-bold tracking-widest text-white border-b-2 border-white pb-1 transition-all hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]">
-            MY BOOKINGS
-          </Link>
-          <Link href="/league-tables" className="text-xs font-bold tracking-widest text-slate-400 hover:text-white transition-all">
-            LEAGUE TABLES
-          </Link>
-          <Link href="/messages" className="text-xs font-bold tracking-widest text-slate-400 hover:text-white transition-all">
-            MESSAGES
-          </Link>
+          {NAV_LINKS.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-xs font-bold tracking-widest pb-1 border-b-2 transition-all ${
+                  active
+                    ? 'text-white border-white hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]'
+                    : 'text-slate-400 border-transparent hover:text-white'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

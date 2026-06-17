@@ -32,6 +32,18 @@
     color: rgb(var(--foreground));
     overflow-x: hidden;
   }
+
+  /* Tailwind v4 removes the default pointer cursor on buttons — restore it. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
 
 /* Custom layout utility classes */

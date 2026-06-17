@@ -4,13 +4,15 @@ import { useState } from 'react';
 import {
   Clock,
   MapPin,
-  MessageCircle,
   Plus,
+  SlidersHorizontal,
   Trophy,
-  UserPlus,
   Users,
   Zap,
 } from 'lucide-react';
+import FilterDropdown from '../../components/FilterDropdown';
+import WhenFilterModal, { DayOption } from '../../components/WhenFilterModal';
+import WhereFilterModal, { ClubOption } from '../../components/WhereFilterModal';
 
 const OPEN_MATCHES = [
   {
@@ -96,17 +98,165 @@ const CLUBS = [
   { name: 'Downtown Tennis Club', sports: 'Tennis', open: '2 courts open', distance: '3.4 km' },
 ];
 
+const CLUB_OPTIONS: ClubOption[] = [
+  {
+    name: 'Club XNRGY Amsterdam',
+    image: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=400&auto=format&fit=crop&q=80',
+  },
+  {
+    name: 'Blanca Padel',
+    image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=400&auto=format&fit=crop&q=80',
+  },
+  {
+    name: 'Downtown Tennis Club',
+    image: 'https://images.unsplash.com/photo-1554068865-24cecd4e34f8?w=400&auto=format&fit=crop&q=80',
+  },
+];
+
+const SPORT_OPTIONS = ['All sports', 'Padel', 'Tennis'];
+
+const WD_SHORT = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const WD_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Builds the next 7 days starting from today for the "When" day picker.
+const buildWeek = (): DayOption[] => {
+  const today = new Date();
+  return Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+    return {
+      key: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      wd: WD_SHORT[date.getDay()],
+      full: WD_FULL[date.getDay()],
+      d: date.getDate(),
+      mo: MONTHS[date.getMonth()],
+    };
+  });
+};
+
+// Pulls the start hour out of a match time string like "Today, 19:00".
+const getHour = (time: string) => {
+  const match = time.match(/(\d{1,2}):\d{2}/);
+  return match ? Number(match[1]) : null;
+};
+
 export default function ExplorePage() {
-  const [sport, setSport] = useState('All');
+  const [week] = useState<DayOption[]>(buildWeek);
+
+  // Sport
+  const [sport, setSport] = useState('All sports');
+
+  // When
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [timeMode, setTimeMode] = useState('All day');
+  const [specificFrom, setSpecificFrom] = useState(18);
+  const [specificTo, setSpecificTo] = useState(24);
+
+  // Where
+  const [location, setLocation] = useState('Around me');
+  const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
+  const [recent, setRecent] = useState(false);
+  const [favourite, setFavourite] = useState(false);
+  const [useDistance, setUseDistance] = useState(false);
+  const [distance, setDistance] = useState(15);
+
+  const [openModal, setOpenModal] = useState<null | 'when' | 'where'>(null);
   const [following, setFollowing] = useState<number[]>([1]);
 
-  const matches = sport === 'All' ? OPEN_MATCHES : OPEN_MATCHES.filter((match) => match.sport === sport);
+  // Resolves a match's time string to one of the day keys in the picker.
+  const matchDayKey = (time: string) => {
+    if (time.includes('Today')) return week[0]?.key;
+    if (time.includes('Tomorrow')) return week[1]?.key;
+    const weekday = time.split(',')[0].trim();
+    return week.find((day) => day.full === weekday)?.key;
+  };
+
+  const matchesTime = (time: string) => {
+    if (timeMode === 'All day') return true;
+    const hour = getHour(time);
+    if (hour === null) return false;
+    if (timeMode === 'Morning') return hour >= 6 && hour < 12;
+    if (timeMode === 'Afternoon') return hour >= 12 && hour < 18;
+    if (timeMode === 'Evening') return hour >= 18;
+    if (timeMode === 'Specific hours') return hour >= specificFrom && hour < specificTo;
+    return true;
+  };
+
+  const matches = OPEN_MATCHES.filter((match) => {
+    if (sport !== 'All sports' && match.sport !== sport) return false;
+    if (selectedDays.length > 0) {
+      const key = matchDayKey(match.time);
+      if (!key || !selectedDays.includes(key)) return false;
+    }
+    if (!matchesTime(match.time)) return false;
+    if (selectedClubs.length > 0 && !selectedClubs.includes(match.club)) return false;
+    return true;
+  });
+
+  const toggleDay = (key: string) => {
+    setSelectedDays((current) =>
+      current.includes(key) ? current.filter((day) => day !== key) : [...current, key].slice(0, 7)
+    );
+  };
+
+  const toggleClub = (name: string) => {
+    setSelectedClubs((current) =>
+      current.includes(name) ? current.filter((club) => club !== name) : [...current, name]
+    );
+  };
+
+  const clearWhen = () => {
+    setSelectedDays([]);
+    setTimeMode('All day');
+  };
+
+  const clearWhere = () => {
+    setLocation('Around me');
+    setSelectedClubs([]);
+    setRecent(false);
+    setFavourite(false);
+    setUseDistance(false);
+  };
+
+  const clearAll = () => {
+    setSport('All sports');
+    clearWhen();
+    clearWhere();
+  };
+
+  const whenActive = selectedDays.length > 0 || timeMode !== 'All day';
+  const whereActive = selectedClubs.length > 0 || recent || favourite || useDistance;
+  const hasActiveFilters = sport !== 'All sports' || whenActive || whereActive;
+
+  const whenLabel = () => {
+    if (!whenActive) return 'WHEN';
+    const parts: string[] = [];
+    if (selectedDays.length > 0) parts.push(`${selectedDays.length} ${selectedDays.length === 1 ? 'day' : 'days'}`);
+    if (timeMode !== 'All day') parts.push(timeMode);
+    return parts.join(' · ');
+  };
+
+  const whereLabel = () => {
+    if (selectedClubs.length > 0) return `${selectedClubs.length} ${selectedClubs.length === 1 ? 'club' : 'clubs'}`;
+    if (useDistance) return `Within ${distance} km`;
+    if (favourite) return 'Favourites';
+    if (recent) return 'Recent';
+    return 'WHERE';
+  };
 
   const toggleFollow = (id: number) => {
     setFollowing((current) =>
       current.includes(id) ? current.filter((playerId) => playerId !== id) : [...current, id]
     );
   };
+
+  const pillClass = (active: boolean) =>
+    `flex-none flex items-center gap-2 rounded-full pl-4 pr-3 py-2.5 text-[11px] font-black tracking-widest whitespace-nowrap transition-colors ${
+      active
+        ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)] text-[var(--color-accent)]'
+        : 'bg-[var(--color-dark-card)] border border-[#1f2937] text-white hover:border-[var(--color-accent)]/50'
+    }`;
 
   return (
     <div className="p-8 max-w-[1600px] mx-auto min-h-full">
@@ -126,34 +276,67 @@ export default function ExplorePage() {
         </button>
       </div>
 
+      {/* Preset filter bar */}
+      <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 mb-8">
+        <span
+          className={`flex-none w-11 h-11 rounded-full border flex items-center justify-center ${
+            hasActiveFilters
+              ? 'border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/10'
+              : 'border-[#1f2937] text-slate-400 bg-[var(--color-dark-card)]'
+          }`}
+        >
+          <SlidersHorizontal size={18} />
+        </span>
+
+        <FilterDropdown options={SPORT_OPTIONS} value={sport} onChange={setSport} />
+
+        <button onClick={() => setOpenModal('when')} className={pillClass(whenActive)}>
+          {whenLabel().toUpperCase()}
+        </button>
+
+        <button onClick={() => setOpenModal('where')} className={pillClass(whereActive)}>
+          {whereLabel().toUpperCase()}
+        </button>
+
+        {hasActiveFilters && (
+          <button
+            onClick={clearAll}
+            className="flex-none text-[11px] font-black tracking-widest text-slate-400 hover:text-white transition-colors px-2"
+          >
+            CLEAR ALL
+          </button>
+        )}
+      </div>
+
       <div className="grid grid-cols-12 gap-8">
-        <section className="col-span-12 xl:col-span-7 space-y-5">
+        <section className="col-span-12 xl:col-span-8 space-y-5">
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-lg font-black text-[var(--color-cyan-glow)] font-[var(--font-urbanist)] uppercase tracking-widest">
               OPEN MATCHES
             </h2>
-            <div className="flex rounded-full bg-[#121826] border border-[#1f2937] p-1">
-              {['All', 'Padel', 'Tennis'].map((option) => (
-                <button
-                  key={option}
-                  onClick={() => setSport(option)}
-                  className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest transition-colors ${
-                    sport === option
-                      ? 'bg-[var(--color-cyan-glow)] text-[#090e17]'
-                      : 'text-slate-500 hover:text-white'
-                  }`}
-                >
-                  {option.toUpperCase()}
-                </button>
-              ))}
-            </div>
+            <span className="text-[10px] font-black tracking-widest text-slate-500">
+              {matches.length} {matches.length === 1 ? 'MATCH' : 'MATCHES'}
+            </span>
           </div>
+
+          {matches.length === 0 && (
+            <div className="bg-[var(--color-dark-card)] border border-dashed border-[#1f2937] rounded-xl p-10 text-center">
+              <p className="text-sm font-black text-white tracking-wide">No matches fit these filters</p>
+              <p className="text-xs font-bold text-slate-500 mt-2 tracking-wide">Try widening your sport, day, time, or location.</p>
+              <button
+                onClick={clearAll}
+                className="mt-5 text-[10px] font-black tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg px-4 py-2.5 hover:border-[var(--color-accent)] transition-colors"
+              >
+                CLEAR ALL
+              </button>
+            </div>
+          )}
 
           <div className="space-y-4">
             {matches.map((match) => (
               <article
                 key={match.id}
-                className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-5 relative overflow-hidden hover:border-[var(--color-cyan-glow)]/50 transition-colors"
+                className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-5 relative overflow-hidden"
               >
                 <div className="absolute left-0 top-0 w-1 h-full bg-[var(--color-cyan-glow)]"></div>
                 <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
@@ -203,64 +386,43 @@ export default function ExplorePage() {
           </div>
         </section>
 
-        <section className="col-span-12 xl:col-span-5 space-y-8">
+        <section className="col-span-12 xl:col-span-4 space-y-8">
           <div>
             <h2 className="text-lg font-black mb-4 text-[var(--color-accent)] font-[var(--font-urbanist)] uppercase tracking-widest">
-              PLAYERS TO FOLLOW
+              SUGGESTED PLAYERS
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-1 gap-4">
+            <div className="space-y-2">
               {PLAYERS.map((player) => {
                 const isFollowing = following.includes(player.id);
 
                 return (
                   <article
                     key={player.id}
-                    className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-4 hover:border-[var(--color-accent)]/50 transition-colors"
+                    className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-3 flex items-center justify-between gap-3"
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <img
-                          src={player.image}
-                          alt={player.name}
-                          className="w-14 h-14 rounded-xl object-cover border border-[#1f2937]"
-                        />
-                        <div className="min-w-0">
-                          <h3 className="text-sm font-black text-white tracking-wide truncate">{player.name}</h3>
-                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">
-                            {player.sport} · Level {player.level} · {player.distance}
-                          </p>
-                        </div>
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={player.image}
+                        alt={player.name}
+                        className="w-11 h-11 rounded-lg object-cover border border-[#1f2937] flex-none"
+                      />
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-black text-white tracking-wide truncate">{player.name}</h3>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5 truncate">
+                          {player.sport} · {player.level}
+                        </p>
                       </div>
-                      <button
-                        onClick={() => toggleFollow(player.id)}
-                        className={`px-3 py-2 rounded-lg text-[10px] font-black tracking-widest transition-colors ${
-                          isFollowing
-                            ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/30'
-                            : 'bg-[var(--color-cyan-glow)] text-[#090e17]'
-                        }`}
-                      >
-                        {isFollowing ? 'FOLLOWING' : 'FOLLOW'}
-                      </button>
                     </div>
-
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {player.tags.map((tag) => (
-                        <span key={tag} className="text-[9px] font-black tracking-widest text-slate-400 bg-[#090e17] border border-[#1f2937] rounded-full px-2.5 py-1">
-                          {tag.toUpperCase()}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2 mt-4">
-                      <button className="flex items-center justify-center gap-2 text-[10px] font-black tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg py-2.5 hover:border-[var(--color-accent)] transition-colors">
-                        <UserPlus size={14} />
-                        CHALLENGE
-                      </button>
-                      <button className="flex items-center justify-center gap-2 text-[10px] font-black tracking-widest text-slate-300 border border-[#1f2937] bg-[#090e17] rounded-lg py-2.5 hover:text-white hover:border-slate-600 transition-colors">
-                        <MessageCircle size={14} />
-                        MESSAGE
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => toggleFollow(player.id)}
+                      className={`flex-none px-3 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${
+                        isFollowing
+                          ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:bg-[var(--color-accent)]/20 hover:border-[var(--color-accent)]'
+                          : 'bg-[var(--color-cyan-glow)] text-[#090e17] hover:brightness-110'
+                      }`}
+                    >
+                      {isFollowing ? 'FOLLOWING' : 'FOLLOW'}
+                    </button>
                   </article>
                 );
               })}
@@ -275,7 +437,7 @@ export default function ExplorePage() {
               {CLUBS.map((club) => (
                 <article
                   key={club.name}
-                  className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-4 flex items-center justify-between gap-4 hover:border-[var(--color-neon-orange)]/50 transition-colors"
+                  className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-4 flex items-center justify-between gap-4"
                 >
                   <div className="min-w-0">
                     <h3 className="text-sm font-black text-white uppercase tracking-wide truncate">{club.name}</h3>
@@ -311,6 +473,42 @@ export default function ExplorePage() {
           </div>
         </section>
       </div>
+
+      {openModal === 'when' && (
+        <WhenFilterModal
+          days={week}
+          selectedDays={selectedDays}
+          onToggleDay={toggleDay}
+          timeMode={timeMode}
+          onTimeMode={setTimeMode}
+          specificFrom={specificFrom}
+          specificTo={specificTo}
+          onSpecificFrom={setSpecificFrom}
+          onSpecificTo={setSpecificTo}
+          onClose={() => setOpenModal(null)}
+          onClear={clearWhen}
+        />
+      )}
+
+      {openModal === 'where' && (
+        <WhereFilterModal
+          location={location}
+          onLocation={setLocation}
+          clubs={CLUB_OPTIONS}
+          selectedClubs={selectedClubs}
+          onToggleClub={toggleClub}
+          recent={recent}
+          onRecent={setRecent}
+          favourite={favourite}
+          onFavourite={setFavourite}
+          useDistance={useDistance}
+          onUseDistance={setUseDistance}
+          distance={distance}
+          onDistance={setDistance}
+          onClose={() => setOpenModal(null)}
+          onClear={clearWhere}
+        />
+      )}
     </div>
   );
 }
