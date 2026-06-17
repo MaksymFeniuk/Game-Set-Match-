@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   Clock,
   MapPin,
@@ -13,6 +14,7 @@ import {
 import FilterDropdown from '../../components/FilterDropdown';
 import WhenFilterModal, { DayOption } from '../../components/WhenFilterModal';
 import WhereFilterModal, { ClubOption } from '../../components/WhereFilterModal';
+import { PLAYERS } from '../../data/players';
 
 const OPEN_MATCHES = [
   {
@@ -56,39 +58,6 @@ const OPEN_MATCHES = [
     vibe: 'Social first',
     host: 'Noah S.',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80',
-  },
-];
-
-const PLAYERS = [
-  {
-    id: 1,
-    name: 'Sarah K.',
-    sport: 'Padel',
-    level: '4.1',
-    distance: '1.8 km',
-    followers: '128',
-    tags: ['Evenings', 'Doubles', 'Competitive'],
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=220&auto=format&fit=crop&q=80',
-  },
-  {
-    id: 2,
-    name: 'Ben H.',
-    sport: 'Tennis',
-    level: '4.3',
-    distance: '2.4 km',
-    followers: '96',
-    tags: ['Singles', 'Weekends', 'League'],
-    image: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=220&auto=format&fit=crop&q=80',
-  },
-  {
-    id: 3,
-    name: 'Mila V.',
-    sport: 'Padel',
-    level: '3.8',
-    distance: '3.1 km',
-    followers: '174',
-    tags: ['Social', 'Mixed', 'After work'],
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=220&auto=format&fit=crop&q=80',
   },
 ];
 
@@ -277,7 +246,7 @@ export default function ExplorePage() {
       </div>
 
       {/* Preset filter bar */}
-      <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 mb-8">
+      <div className="flex flex-wrap items-center gap-3 mb-8">
         <span
           className={`flex-none w-11 h-11 rounded-full border flex items-center justify-center ${
             hasActiveFilters
@@ -392,7 +361,7 @@ export default function ExplorePage() {
               SUGGESTED PLAYERS
             </h2>
             <div className="space-y-2">
-              {PLAYERS.map((player) => {
+              {PLAYERS.slice(0, 6).map((player) => {
                 const isFollowing = following.includes(player.id);
 
                 return (
@@ -400,19 +369,19 @@ export default function ExplorePage() {
                     key={player.id}
                     className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-3 flex items-center justify-between gap-3"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    <Link href={`/players/${player.id}`} className="flex items-center gap-3 min-w-0 group">
                       <img
                         src={player.image}
                         alt={player.name}
                         className="w-11 h-11 rounded-lg object-cover border border-[#1f2937] flex-none"
                       />
                       <div className="min-w-0">
-                        <h3 className="text-sm font-black text-white tracking-wide truncate">{player.name}</h3>
+                        <h3 className="text-sm font-black text-white tracking-wide truncate group-hover:text-[var(--color-accent)] transition-colors">{player.name}</h3>
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5 truncate">
                           {player.sport} · {player.level}
                         </p>
                       </div>
-                    </div>
+                    </Link>
                     <button
                       onClick={() => toggleFollow(player.id)}
                       className={`flex-none px-3 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${
