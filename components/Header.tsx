@@ -59,7 +59,7 @@ export default function Header() {
                 setOpen(true);
               }}
               onFocus={() => setOpen(true)}
-              placeholder="FIND COURTS & PLAYERS..."
+              placeholder="FIND PLAYERS..."
               className="w-full pl-11 pr-5 py-2.5 bg-transparent border-2 border-[var(--color-accent)] rounded-full focus:outline-none text-slate-200 placeholder-slate-500 text-sm font-bold tracking-widest shadow-[0_0_15px_rgba(115,211,255,0.15)]"
             />
 

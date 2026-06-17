@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { CalendarDays, Clock, MapPin, Plus, Trophy, Users } from 'lucide-react';
 import { PLAYERS } from '../../data/players';
+import InvitePlayersModal from '../../components/InvitePlayersModal';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const avatar = (id: number) => PLAYERS.find((p) => p.id === id)?.image ?? '';
 
@@ -55,6 +57,27 @@ const PAST = [
 
 export default function MatchesPage() {
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [inviteFor, setInviteFor] = useState<number | null>(null);
+  const [invited, setInvited] = useState<Record<number, number[]>>({});
+
+  const toggleInvite = (matchId: number, playerId: number) => {
+    setInvited((current) => {
+      const list = current[matchId] ?? [];
+      const next = list.includes(playerId)
+        ? list.filter((id) => id !== playerId)
+        : [...list, playerId];
+      return { ...current, [matchId]: next };
+    });
+  };
+
+  const activeMatch = UPCOMING.find((m) => m.id === inviteFor);
+
+  // Open spots remaining from a "3/4 players" string.
+  const openSpots = (spots: string) => {
+    const parsed = spots.match(/(\d+)\/(\d+)/);
+    if (!parsed) return 0;
+    return Math.max(0, Number(parsed[2]) - Number(parsed[1]));
+  };
 
   const wins = PAST.filter((m) => m.result === 'Won').length;
   const winRate = Math.round((wins / PAST.length) * 100);
@@ -93,7 +116,10 @@ export default function MatchesPage() {
 
           {tab === 'upcoming' && (
             <div className="space-y-4">
-              {UPCOMING.map((match) => (
+              {UPCOMING.map((match) => {
+                const spotsLeft = openSpots(match.spots);
+                const full = spotsLeft <= 0;
+                return (
                 <div
                   key={match.id}
                   className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 relative overflow-hidden"
@@ -147,15 +173,28 @@ export default function MatchesPage() {
                   </div>
 
                   <div className="flex gap-3">
-                    <button className="flex-1 text-[11px] font-extrabold tracking-widest text-[var(--color-accent)] border border-[var(--color-accent)]/40 hover:border-[var(--color-accent)] bg-[var(--color-accent)]/5 py-2.5 rounded-lg transition-colors">
-                      INVITE PLAYERS
+                    <button
+                      onClick={() => setInviteFor(match.id)}
+                      disabled={full}
+                      className={`flex-1 text-[11px] font-extrabold tracking-widest py-2.5 rounded-lg border transition-colors ${
+                        full
+                          ? 'text-slate-500 border-[#1f2937] bg-[#090e17] cursor-not-allowed'
+                          : 'text-[var(--color-accent)] border-[var(--color-accent)]/40 hover:border-[var(--color-accent)] bg-[var(--color-accent)]/5'
+                      }`}
+                    >
+                      {full
+                        ? 'MATCH FULL'
+                        : invited[match.id]?.length
+                        ? `INVITED (${invited[match.id].length})`
+                        : 'INVITE PLAYERS'}
                     </button>
                     <button className="px-6 py-2.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] font-extrabold uppercase tracking-widest rounded-lg hover:bg-red-500/20 hover:border-red-500/40 transition-colors">
                       LEAVE
                     </button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
@@ -231,6 +270,16 @@ export default function MatchesPage() {
           </div>
         </div>
       </div>
+
+      {activeMatch && (
+        <InvitePlayersModal
+          matchTitle={activeMatch.title}
+          capacity={openSpots(activeMatch.spots)}
+          invited={invited[activeMatch.id] ?? []}
+          onToggle={(playerId) => toggleInvite(activeMatch.id, playerId)}
+          onClose={() => setInviteFor(null)}
+        />
+      )}
     </div>
   );
 }
