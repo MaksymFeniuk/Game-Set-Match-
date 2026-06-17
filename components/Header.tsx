@@ -13,7 +13,7 @@ export default function Header() {
   const searchRef = useRef<HTMLDivElement>(null);
 
   const NAV_LINKS = [
-    { label: 'MY BOOKINGS', href: '/bookings' },
+    { label: 'MY MATCHES', href: '/matches' },
     { label: 'LEAGUE TABLES', href: '/league-tables' },
     { label: 'MESSAGES', href: '/messages' },
   ];

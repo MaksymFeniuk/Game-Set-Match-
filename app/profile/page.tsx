@@ -2,6 +2,17 @@
 
 import { Edit, Trophy, Calendar } from 'lucide-react';
 
+// Dutch-style rating: lower is stronger. 1-4 Advanced, 5-7 Intermediate, 8+ Beginner.
+const levelLabel = (level: string) => {
+  const value = Number(level);
+  if (value <= 4) return 'Advanced';
+  if (value <= 7) return 'Intermediate';
+  return 'Beginner';
+};
+
+const PADEL_RATING = '3.5';
+const TENNIS_RATING = '5.0';
+
 export default function ProfilePage() {
   return (
     <div className="p-8 max-w-[1400px] mx-auto min-h-full">
@@ -20,11 +31,31 @@ export default function ProfilePage() {
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#1f2937] to-transparent"></div>
             <div className="relative z-10">
               <div className="w-28 h-28 bg-[#090e17] rounded-full mx-auto mb-4 flex items-center justify-center border-4 border-[var(--color-accent)] shadow-[0_0_20px_rgba(115,211,255,0.3)] overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Profile" className="w-full h-full object-cover" />
+                <img src="/maksymfeniuk.jpg" alt="Maksym Feniuk" className="w-full h-full object-cover" />
               </div>
-              <h2 className="text-2xl font-black text-center mb-1 text-white tracking-wide">Ben H.</h2>
-              <p className="text-[var(--color-accent)] text-[10px] font-bold text-center mb-8 tracking-widest uppercase">Level: Advanced</p>
-              
+              <h2 className="text-2xl font-black text-center mb-3 text-white tracking-wide">Maksym Feniuk</h2>
+              <div className="flex justify-center gap-2 mb-6">
+                <span className="bg-[var(--color-cyan-glow)]/10 text-[var(--color-cyan-glow)] border border-[var(--color-cyan-glow)]/20 text-[9px] px-2.5 py-1 rounded font-black uppercase tracking-widest">
+                  Padel {PADEL_RATING}
+                </span>
+                <span className="bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20 text-[9px] px-2.5 py-1 rounded font-black uppercase tracking-widest">
+                  Tennis {TENNIS_RATING}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="bg-[#090e17] border border-[#1f2937] rounded-lg p-4">
+                  <p className="text-slate-500 text-[10px] font-black tracking-widest mb-1.5">PADEL</p>
+                  <p className="text-2xl font-black text-[var(--color-cyan-glow)] tracking-wider">{PADEL_RATING}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{levelLabel(PADEL_RATING)}</p>
+                </div>
+                <div className="bg-[#090e17] border border-[#1f2937] rounded-lg p-4">
+                  <p className="text-slate-500 text-[10px] font-black tracking-widest mb-1.5">TENNIS</p>
+                  <p className="text-2xl font-black text-[var(--color-accent)] tracking-wider">{TENNIS_RATING}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{levelLabel(TENNIS_RATING)}</p>
+                </div>
+              </div>
+
               <div className="space-y-3">
                 <div className="bg-[#090e17] border border-[#1f2937] rounded-lg p-4 flex justify-between items-center group hover:border-[var(--color-cyan-glow)]/50 transition-colors">
                   <p className="text-slate-500 text-[10px] font-black tracking-widest">JOINED</p>
@@ -50,9 +81,10 @@ export default function ProfilePage() {
               <h3 className="text-lg font-black text-white font-[var(--font-urbanist)] uppercase tracking-widest">PERFORMANCE</h3>
               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Form reads right to left</p>
             </div>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
               {[
-                { label: 'Rating', value: '3', color: 'text-[var(--color-cyan-glow)]' },
+                { label: 'Padel rating', value: PADEL_RATING, color: 'text-[var(--color-cyan-glow)]' },
+                { label: 'Tennis rating', value: TENNIS_RATING, color: 'text-[var(--color-accent)]' },
                 { label: 'Streak', value: 'W3', color: 'text-[var(--color-neon-orange)]' },
                 { label: 'Form', value: 'W W W L W', color: 'text-[var(--color-accent)]' },
               ].map((stat) => (

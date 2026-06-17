@@ -12,10 +12,10 @@ import {
 } from 'lucide-react';
 
 const QUICK_ACTIONS = [
-  { label: 'Book a court', icon: CalendarDays, href: '/bookings' },
-  { label: 'Learn', icon: GraduationCap, href: '/help' },
-  { label: 'Compete', icon: Trophy, href: '/league-tables' },
   { label: 'Find a match', icon: Search, href: '/explore' },
+  { label: 'My matches', icon: CalendarDays, href: '/matches' },
+  { label: 'Compete', icon: Trophy, href: '/league-tables' },
+  { label: 'Learn', icon: GraduationCap, href: '/help' },
 ];
 
 const CLUBS = [
@@ -76,10 +76,10 @@ export default function DashboardPage() {
                   FIND A MATCH
                 </Link>
                 <Link
-                  href="/bookings"
+                  href="/explore"
                   className="inline-flex items-center justify-center text-[var(--color-accent)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 text-[11px] font-black tracking-widest rounded-lg px-6 py-3.5 hover:border-[var(--color-accent)] transition"
                 >
-                  BOOK A COURT
+                  FOLLOW PLAYERS
                 </Link>
               </div>
             </div>

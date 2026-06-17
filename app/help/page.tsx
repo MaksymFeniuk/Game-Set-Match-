@@ -19,12 +19,12 @@ export default function HelpPage() {
           <div className="space-y-4">
             {[
               {
-                q: 'How do I book a court?',
-                a: 'Go to Explore, find a court you like, and click "Book Now". You can select your preferred time and confirm the booking.',
+                q: 'How do I find a match?',
+                a: 'Go to Explore, use the Sport, When, and Where filters to narrow open matches, and click "Join Match" on one that fits your level and schedule.',
               },
               {
-                q: 'Can I cancel a booking?',
-                a: 'Yes, you can cancel up to 24 hours before your booking. Visit My Bookings to manage your reservations.',
+                q: 'How do I join an open match?',
+                a: 'Open matches show how many spots are left (e.g. 3/4 players). Click "Join Match" to take a free spot — the host is notified instantly.',
               },
               {
                 q: 'How are player rankings calculated?',
@@ -32,11 +32,11 @@ export default function HelpPage() {
               },
               {
                 q: 'How do I challenge another player?',
-                a: 'On the Explore page, find a player and click "Challenge". They will receive a notification and can accept or decline.',
+                a: 'Open a player\'s profile from Explore or search, then click "Challenge". They will receive a notification and can accept or decline.',
               },
               {
-                q: 'Is there a refund policy?',
-                a: 'Yes, full refunds are available for cancellations made 24 hours or more before the booking time.',
+                q: 'How do I follow other players?',
+                a: 'Tap "Follow" on any player card or profile to keep up with their matches and build your match circle.',
               },
             ].map((faq, idx) => (
               <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.3)] relative overflow-hidden">

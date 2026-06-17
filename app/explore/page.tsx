@@ -400,7 +400,7 @@ export default function ExplorePage() {
 
           <div>
             <h2 className="text-lg font-black mb-4 text-[var(--color-neon-orange)] font-[var(--font-urbanist)] uppercase tracking-widest">
-              NEARBY COURTS
+              NEARBY CLUBS
             </h2>
             <div className="space-y-3">
               {CLUBS.map((club) => (
@@ -414,9 +414,7 @@ export default function ExplorePage() {
                       {club.sports} · {club.open} · {club.distance}
                     </p>
                   </div>
-                  <button className="flex-none text-[10px] font-black tracking-widest text-[var(--color-neon-orange)] border border-[var(--color-neon-orange)]/30 bg-[var(--color-neon-orange)]/5 rounded-lg px-3 py-2 hover:border-[var(--color-neon-orange)] transition-colors">
-                    BOOK
-                  </button>
+                  <MapPin size={18} className="flex-none text-[var(--color-neon-orange)]" />
                 </article>
               ))}
             </div>

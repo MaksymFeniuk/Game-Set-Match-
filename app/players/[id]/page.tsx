@@ -6,10 +6,11 @@ import { useParams } from 'next/navigation';
 import { ArrowLeft, Calendar, MapPin, MessageCircle, Trophy, UserPlus, Users } from 'lucide-react';
 import { PLAYERS } from '../../../data/players';
 
+// Dutch-style rating: lower is stronger. 1-4 Advanced, 5-7 Intermediate, 8+ Beginner.
 const levelLabel = (level: string) => {
   const value = Number(level);
-  if (value >= 4) return 'Advanced';
-  if (value >= 3) return 'Intermediate';
+  if (value <= 4) return 'Advanced';
+  if (value <= 7) return 'Intermediate';
   return 'Beginner';
 };
 
