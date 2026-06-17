@@ -64,7 +64,7 @@ export default function Header() {
                     >
                       {f}
                       {isSelected ? (
-                        <div className="w-3 h-3 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_rgba(115,211,255,0.7)]"></div>
+                        <div className="w-3 h-3 rounded-full flex-none" style={{ backgroundColor: 'var(--color-cyan-glow)' }}></div>
                       ) : (
                         <div className="w-3 h-3 rounded-full border border-slate-600 group-hover:border-slate-400"></div>
                       )}
@@ -84,7 +84,7 @@ export default function Header() {
                 onClick={() => removeFilter(pill)} 
                 className={`flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-[11px] font-bold hover:border-slate-500 transition-colors cursor-pointer group ${pill.includes('Level') ? 'text-[var(--color-accent)]' : 'text-slate-300'}`}
               >
-                <span className="w-3 h-3 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_rgba(115,211,255,0.7)]"></span>
+                <span className="w-3 h-3 rounded-full flex-none" style={{ backgroundColor: 'var(--color-cyan-glow)' }}></span>
                 {pill} <X size={12} className={`${pill.includes('Level') ? 'text-[var(--color-accent)]' : 'text-slate-500'} group-hover:text-red-400 transition-colors`} />
               </button>
             ))}
