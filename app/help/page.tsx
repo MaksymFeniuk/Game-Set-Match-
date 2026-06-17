@@ -1,6 +1,6 @@
 'use client';
 
-import { HelpCircle, Mail, AlertCircle, ChevronRight } from 'lucide-react';
+import { HelpCircle, Mail, AlertCircle } from 'lucide-react';
 
 export default function HelpPage() {
   return (
@@ -40,14 +40,9 @@ export default function HelpPage() {
               },
             ].map((faq, idx) => (
               <div key={idx} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 shadow-[0_0_20px_rgba(0,0,0,0.3)] relative overflow-hidden">
-                <div className="flex items-start justify-between gap-4 relative z-10">
-                  <div>
+                <div className="relative z-10">
                     <h3 className="font-bold text-white mb-2">{faq.q}</h3>
                     <p className="text-slate-400 text-sm font-semibold leading-relaxed">{faq.a}</p>
-                  </div>
-                  <div className="mt-1">
-                    <ChevronRight size={20} className="text-slate-600" />
-                  </div>
                 </div>
               </div>
             ))}

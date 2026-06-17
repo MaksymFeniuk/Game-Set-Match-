@@ -1,6 +1,6 @@
 'use client';
 
-import { User, Edit, Trophy, Calendar } from 'lucide-react';
+import { Edit, Trophy, Calendar } from 'lucide-react';
 
 export default function ProfilePage() {
   return (
@@ -46,34 +46,20 @@ export default function ProfilePage() {
         {/* Stats & Info */}
         <div className="col-span-12 lg:col-span-8 space-y-8">
           <div className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-            <h3 className="text-lg font-black mb-6 text-white font-[var(--font-urbanist)] uppercase tracking-widest">PERFORMANCE</h3>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-6">
+              <h3 className="text-lg font-black text-white font-[var(--font-urbanist)] uppercase tracking-widest">PERFORMANCE</h3>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Form reads right to left</p>
+            </div>
             <div className="grid grid-cols-3 gap-6">
               {[
+                { label: 'Rating', value: '3', color: 'text-[var(--color-cyan-glow)]' },
+                { label: 'Streak', value: 'W3', color: 'text-[var(--color-neon-orange)]' },
                 { label: 'Form', value: 'W W W L W', color: 'text-[var(--color-accent)]' },
-                { label: 'Streak', value: 'W2', color: 'text-[var(--color-neon-orange)]' },
-                { label: 'Rating', value: '1850', color: 'text-[var(--color-cyan-glow)]' },
               ].map((stat) => (
                 <div key={stat.label} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-5 relative overflow-hidden group">
                   <div className={`absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-colors`}></div>
                   <p className="text-slate-500 text-[10px] font-black tracking-widest mb-2 uppercase">{stat.label}</p>
                   <p className={`text-2xl font-black ${stat.color} tracking-wider`}>{stat.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-            <h3 className="text-lg font-black mb-6 text-white font-[var(--font-urbanist)] uppercase tracking-widest flex items-center gap-3">
-              <Trophy size={20} className="text-[var(--color-neon-orange)]" />
-              ACHIEVEMENTS
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((badge) => (
-                <div key={badge} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-6 flex flex-col items-center justify-center">
-                  <div className="w-14 h-14 bg-[var(--color-neon-orange)]/10 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(255,107,0,0.1)]">
-                    <Trophy size={24} className="text-[var(--color-neon-orange)]" />
-                  </div>
-                  <p className="text-[10px] font-bold text-slate-400 text-center tracking-widest uppercase">Badge {badge}</p>
                 </div>
               ))}
             </div>
@@ -93,6 +79,23 @@ export default function ProfilePage() {
                     <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">3 days ago • 6-4, 7-5</p>
                   </div>
                   <span className="bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20 text-[10px] px-3 py-1 rounded font-black uppercase tracking-widest shadow-[0_0_10px_rgba(115,211,255,0.1)]">WON</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <h3 className="text-lg font-black mb-6 text-white font-[var(--font-urbanist)] uppercase tracking-widest flex items-center gap-3">
+              <Trophy size={20} className="text-[var(--color-neon-orange)]" />
+              ACHIEVEMENTS
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((badge) => (
+                <div key={badge} className="bg-[#090e17] border border-[#1f2937] rounded-xl p-6 flex flex-col items-center justify-center">
+                  <div className="w-14 h-14 bg-[var(--color-neon-orange)]/10 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(255,107,0,0.1)]">
+                    <Trophy size={24} className="text-[var(--color-neon-orange)]" />
+                  </div>
+                  <p className="text-[10px] font-bold text-slate-400 text-center tracking-widest uppercase">Badge {badge}</p>
                 </div>
               ))}
             </div>

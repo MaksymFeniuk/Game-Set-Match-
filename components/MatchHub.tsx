@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 const PLAYERS = [
-  { name: "Ben H.", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80", form: ["W", "W", "W", "L", "W"], streak: ["W", "W"], rating: ["60", "55", "57"] },
-  { name: "Sarah K.", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80", form: ["W", "L", "W", "L", "L"], streak: ["L"], rating: ["52", "50", "51"] },
-  { name: "Alex R.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", form: ["W", "W", "L", "W", "W"], streak: ["W", "W", "W"], rating: ["65", "68", "67"] }
+  { name: "Ben H.", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80", form: ["W", "W", "W", "L", "W"], streak: ["W", "W"], rating: ["3", "4", "3"] },
+  { name: "Sarah K.", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80", form: ["W", "L", "W", "L", "L"], streak: ["L"], rating: ["5", "6", "5"] },
+  { name: "Alex R.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", form: ["W", "W", "L", "W", "W"], streak: ["W", "W", "W"], rating: ["2", "2", "3"] }
 ];
 
 export default function MatchHub() {

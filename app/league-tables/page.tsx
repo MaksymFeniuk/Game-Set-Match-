@@ -1,6 +1,6 @@
 'use client';
 
-import { Trophy, TrendingUp } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LeagueTablesPage() {
@@ -39,7 +39,7 @@ export default function LeagueTablesPage() {
                   <p className="font-bold text-white group-hover:text-[var(--color-accent)] transition-colors">Player {rank}</p>
                   <p className="text-[10px] font-bold text-slate-500 tracking-wider">LEVEL: ADVANCED</p>
                 </div>
-                <div className="w-20 text-center font-black text-[var(--color-cyan-glow)]">{2500 - rank * 50}</div>
+                <div className="w-20 text-center font-black text-[var(--color-cyan-glow)]">{Math.min(rank, 9)}</div>
                 <div className="w-20 text-center font-bold text-slate-400">{100 - rank * 5}</div>
               </Link>
             ))}
@@ -84,7 +84,7 @@ export default function LeagueTablesPage() {
           { label: 'TOTAL PLAYERS', value: '1,234' },
           { label: 'ACTIVE LEAGUES', value: '8' },
           { label: 'MATCHES THIS WEEK', value: '342' },
-          { label: 'TOP RATING', value: '2,850' },
+          { label: 'TOP RATING', value: '1' },
         ].map((stat) => (
           <div key={stat.label} className="bg-[var(--color-dark-card)] border border-[#1f2937] rounded-xl p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-2xl"></div>
