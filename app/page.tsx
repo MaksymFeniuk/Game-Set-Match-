@@ -38,7 +38,7 @@ const CLUBS = [
     distance: '3.4km',
     area: 'Centrum',
     activity: '4 players nearby',
-    image: 'https://images.unsplash.com/photo-1554068865-24cecd4e34f8?w=900&auto=format&fit=crop&q=80',
+    image: '/downtown.jpg',
   },
 ];
 
