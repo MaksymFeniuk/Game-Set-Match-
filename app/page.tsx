@@ -89,7 +89,7 @@ export default function DashboardPage() {
                 <img
                   src="https://padelx.club/cdn/shop/files/group_padel_players.png?v=1763547694&width=1600"
                   alt="Happy padel players standing together with rackets"
-                  className="absolute left-1/2 top-1/2 h-[110%] w-[110%] -translate-x-1/2 -translate-y-1/2 object-cover"
+                  className="absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#121826]/70 via-transparent to-transparent"></div>
                 <div className="absolute left-5 bottom-5 bg-[#090e17]/85 border border-[#1f2937] rounded-lg px-4 py-3 backdrop-blur">
